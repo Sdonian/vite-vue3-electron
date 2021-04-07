@@ -3,16 +3,25 @@
   "version": "0.0.0",
   "main": "dist/main/_.js",
   "scripts": {
-    "dev":"concurrently  -n=vue,ele -c=green,blue  \"yarn run dev:vue\" \"yarn run dev:ele \"",
-    "dev:vue": "vite",    
+    "start": "vite --open",
+    "dev": "concurrently  -n=vue,ele -c=green,blue  \"yarn run dev:vue\" \"yarn run dev:ele \"",
+    "dev:vue": "vite",
     "dev:ele": "node -r ts-node/register script/build --env=development --watch",
-    "build":"yarn run build:vue && yarn run build:ele && electron-builder",
-    "build:vue": "vue-tsc --noEmit && vite build",    
-    "build:ele":"node -r ts-node/register script/build --env=production",
+    "build": "yarn run build:vue && yarn run build:ele && electron-builder",
+    "build:vue": "vue-tsc --noEmit && vite build",
+    "build:ele": "node -r ts-node/register script/build --env=production",
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "@types/js-cookie": "^2.2.6",
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.36",
+    "js-cookie": "^2.2.1",
+    "js-md5": "^0.7.3",
+    "path-to-regexp": "^6.2.0",
+    "vue": "^3.0.5",
+    "vue-router": "4",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.2",
@@ -31,9 +40,11 @@
     "ora": "^5.4.0",
     "rollup-plugin-esbuild": "^3.0.2",
     "rollup-plugin-node-externals": "^2.2.0",
+    "sass": "^1.32.8",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
     "vite": "^2.1.3",
+    "vite-plugin-style-import": "^0.9.1",
     "vue-tsc": "^0.0.8"
   },
   "build": {

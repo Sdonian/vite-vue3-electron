@@ -4,11 +4,26 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { join } from 'path';
 import externals from 'rollup-plugin-node-externals'
+import styleImport from 'vite-plugin-style-import'
+
 
 const root = join(__dirname, 'src/render');
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(),
+  styleImport({
+    libs: [
+      {
+        libraryName: 'element-plus',
+        resolveStyle: (name) => {
+          return `element-plus/lib/theme-chalk/${name}.css`;
+        },
+        resolveComponent: (name) => {
+          return `element-plus/lib/${name}`;
+        },
+      }
+    ]
+  })],
   root: root,
   base: './',
   server: {

@@ -9,7 +9,7 @@ import externals from 'rollup-plugin-node-externals'
 
 export default (env = 'production') => {
     const options: RollupOptions = {
-        input: join(__dirname, '../src/mian/index.ts'),
+        input: join(__dirname, '../src/main/index.ts'),
         output: {
             file: join(__dirname, '../dist/main/_.js'),
             format: 'cjs',
