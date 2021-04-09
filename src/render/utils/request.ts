@@ -1,87 +1,96 @@
-import axios from 'axios'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import {useStore} from 'vuex'
+import axios, { AxiosInstance } from 'axios';
+const baseUrl = 'http://132.232.34.148/api/'
 import { getToken } from '@/utils/auth'
+import { useStore } from 'vuex'
 
 const store = useStore();
 
-// create an axios instance
-const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
-})
+class request {
+  public _http: AxiosInstance;
+  private static instance: request;
+  private constructor() {
+    this._http = axios.create({
+      baseURL: baseUrl,
+      timeout: 5000
+    });
 
-// request interceptor
-service.interceptors.request.use(
-  config => {
-    // do something before request is sent
-
-    if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
-    }
-    return config
-  },
-  error => {
-    // do something with request error
-    console.log(error) // for debug
-    return Promise.reject(error)
-  }
-)
-
-// response interceptor
-service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-  */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
-  response => {
-    const res = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
-      ElMessage({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        ElMessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-          confirmButtonText: 'Re-Login',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
+    this._http.interceptors.request.use(
+      config => {
+        // if (store.getters.token) {
+        //   config.headers.common['authorization'] = 'Bearer ' + getToken();
+        // }
+        return config
+      },
+      error => {
+        console.log(error) // for debug
+        return Promise.reject(error)
       }
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
-  },
-  error => {
-    console.log('err' + error) // for debug
-    ElMessage({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+    )
   }
-)
-
-export default service
+  //单例
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new request();
+    }
+    return this.instance;
+  }
+  //基础方法
+  async httpGet(url: string, params?: any) {
+    try {      
+      const res = await this._http.get(url, { params: params });
+      return this.disposeData(res);
+    }
+    catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  async httpPost(url, data) {
+    try {
+      const res = await this._http.post(url, data);
+      return this.disposeData(res);
+    }
+    catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  async httpDelete(url, params) {
+    try {
+      const res = await this._http.delete(url, { params: params });
+      return this.disposeData(res);
+    }
+    catch (error) {
+      return Promise.reject(error);
+    }
+  }
+  async httpPut(url, data) {
+    try {
+      const res = await this._http.put(url, data);
+      return this.disposeData(res);
+    }
+    catch (error) {
+      return Promise.reject(error);
+    }
+  }
+  getConfig() {
+    return { baseUrl: baseUrl };
+  };
+  //处理统一返回数据
+  disposeData(res) {
+    const { data } = res;
+    const { isPositive, errorMsg, stateCode } = data;
+    if (isPositive) {
+      return Promise.resolve(data);
+    } else {
+      // Message({
+      //     message: `错误信息:${errorMsg},错误代码：${stateCode}` || 'Error',
+      //     type: 'error',
+      //     duration: 5 * 1000
+      // })
+      //return Promise.reject(errorMsg);
+      throw new Error(`错误信息:${errorMsg}` || 'Error');
+    }
+  }
+}
+export default request.getInstance();

@@ -21,7 +21,7 @@ const routers: RouteRecordRaw[] = [{
     }]
 }, {
     path: '/settings',
-    component: Layout,
+    component: Layout,  
     name: 'Settings',
     redirect: '/settings/base',
     meta: { title: '设置' },

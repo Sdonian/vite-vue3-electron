@@ -1160,6 +1160,14 @@ duplexer3@^0.1.4:
   resolved "https://registry.npm.taobao.org/duplexer3/download/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
+echarts@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-5.0.2.tgz#1726d17a57cf05d62cd0567b4325e1201a56baf6"
+  integrity sha1-FybRelfPBdYs0FZ7QyXhIBpWuvY=
+  dependencies:
+    tslib "2.0.3"
+    zrender "5.0.4"
+
 editions@^6.1.0:
   version "6.1.0"
   resolved "https://registry.npm.taobao.org/editions/download/editions-6.1.0.tgz#ba6c6cf9f4bb571d9e53ea34e771a602e5a66549"
@@ -2951,6 +2959,11 @@ ts-node@^9.1.1:
     source-map-support "^0.5.17"
     yn "3.1.1"
 
+tslib@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/tslib/download/tslib-2.0.3.tgz?cache=0&sync_timestamp=1617647331485&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
+  integrity sha1-jgdBrEX8DCJuWKF7/D5kubxsphw=
+
 tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1609887446826&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
@@ -3282,3 +3295,10 @@ yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.npm.taobao.org/yn/download/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha1-HodAGgnXZ8HV6rJqbkwYUYLS61A=
+
+zrender@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-5.0.4.tgz?cache=0&sync_timestamp=1612184108108&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-5.0.4.tgz#89c355af908b9f64a301b38f751b7951f2c8a95a"
+  integrity sha1-icNVr5CLn2SjAbOPdRt5UfLIqVo=
+  dependencies:
+    tslib "2.0.3"
