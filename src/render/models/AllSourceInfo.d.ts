@@ -1,4 +1,5 @@
 export default interface AllSourceInfo {
+    maxQueue: number;
     //设备资源队列中
     clientQueue: number;
     /// <summary>
@@ -53,4 +54,6 @@ export default interface AllSourceInfo {
     /// 等待发送订单队列
     /// </summary>
     orderQueueCount: number;
+    //通道数量
+    channelCount: number;
 }
