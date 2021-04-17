@@ -1,8 +1,5 @@
 // module.exports = {
 
-import { Settings } from "electron/main"
-import settings from "./store/modules/settings"
-
 //   title: 'Vue Admin Template',
 
 //   /**
@@ -39,7 +36,7 @@ const setting: settings = {
    * @description Whether show the logo in sidebar
    */
   sidebarLogo: false,
-  showSettings: false
+  showSettings: true
 }
 
 export default setting;

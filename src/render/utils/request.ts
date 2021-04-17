@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-const baseUrl = 'http://132.232.34.148/api/'
+//const baseUrl = 'http://132.232.34.148/api/'
+const baseUrl = "http://localhost:5000/api"
 import { getToken } from '@/utils/auth'
 import { useStore } from 'vuex'
 
@@ -36,7 +37,7 @@ class request {
   }
   //基础方法
   async httpGet(url: string, params?: any) {
-    try {      
+    try {
       const res = await this._http.get(url, { params: params });
       return this.disposeData(res);
     }

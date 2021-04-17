@@ -54,24 +54,33 @@
 
         <breadcrumb class="breadcrumb-container" />
       </el-header>
-      <el-main><router-view></router-view></el-main>
+      <el-main>
+        <router-view></router-view>
+        <RightPanel>
+          <Shortcut></Shortcut>
+        </RightPanel>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 <script lang="ts">
 import { defineComponent, reactive, ref, nextTick, computed } from "vue";
-import variables from "@/style/variables.module.scss";
+import variables from "@/styles/variables.module.scss";
 import Hamburger from "@/components/Hamburger/index.vue";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
 import { useStore, mapGetters } from "vuex";
 import { useRouter } from "vue-router";
-import SidebarItem from "./components/Sidebar/SidebarItem.vue";
+import RightPanel from "@/components/RightPanel/index.vue";
+import Shortcut from "@/views/shortcut/index.vue";
+import { SidebarItem, Settings } from "./components";
 
 export default defineComponent({
   name: "Layout",
   components: {
     Hamburger,
     SidebarItem,
+    RightPanel,
+    Shortcut,
     Breadcrumb,
   },
   computed: {

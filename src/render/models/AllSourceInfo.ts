@@ -56,4 +56,6 @@ export default interface AllSourceInfo {
     orderQueueCount: number;
     //通道数量
     channelCount: number;
+    //更新时间
+    updateTime: string
 }

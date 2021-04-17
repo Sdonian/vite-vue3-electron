@@ -9,11 +9,10 @@ export const initChart = (el: HTMLElement, option?: object): ECharts => {
     const chart = init(el);
     chart.setOption({
         tooltip: {
-            formatter: "{a} <br/>: {c}",
+            show: true
         },
         series: [
             {
-                name: "Pressure",
                 type: "gauge",
                 progress: {
                     show: true,
@@ -28,14 +27,13 @@ export const initChart = (el: HTMLElement, option?: object): ECharts => {
                 },
                 radius: '100%',
                 title: {
-                    fontWeight: 'bold',
-                    offsetCenter: [0, '50%']
+                    offsetCenter: [0, '70%']
                 },
                 detail: {
                     valueAnimation: true,
                     formatter: "{value}",
                     fontSize: 20,
-                    offsetCenter: [0, '70%']
+                    offsetCenter: [0, '90%']
                 },
                 data: [
                     {

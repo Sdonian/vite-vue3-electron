@@ -2,14 +2,13 @@
   <div :id="id" :class="className" :style="{ height: height, width: width }" />
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, reactive, watch } from "vue";
+import { defineComponent, onMounted, reactive, watch,onActivated } from "vue";
 import { initChart } from "./lineBarFuns";
 import { ECharts } from "echarts/core";
-import resize from "../mixins/resize";
+import {initListener} from "../mixins/resize";
 
 export default defineComponent({
   name: "SimpleChart",
-  mixins: [resize],
   props: {
     className: {
       type: String,
@@ -38,15 +37,18 @@ export default defineComponent({
   },
   methods: {},
   setup(prop, context) {
-    let chart = reactive({ echart: {} as ECharts });
-    onMounted(() => {              
-      chart.echart = initChart(document.getElementById(prop.id));
+    let chart = reactive({} as ECharts);
+    onMounted(() => {
+      chart = initChart(document.getElementById(prop.id), prop.option);
+      initListener(chart);
     });
     watch(prop, (nprop, o) => {
       //   if (nprop.option.series) {
       //     nprop.option.series[0].data[0].name = nprop.title;
       //   }
-      chart.echart.setOption(nprop.option);
+      //chart.echart.clear();
+      //chart.echart.setOption(nprop.option, { notMerge: true });
+      chart.setOption(nprop.option);
     });
     return {
       chart,

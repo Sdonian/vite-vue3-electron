@@ -20,8 +20,25 @@ const routers: RouteRecordRaw[] = [{
         meta: { title: '首页' }
     }]
 }, {
+    path: '/information',
+    component: Layout,
+    name: 'information',
+    redirect: '/information/device',
+    meta: { title: '数据信息' },
+    children: [{
+        path: 'device',
+        name: 'Device',
+        component: () => import('@/views/information/device.vue'),
+        meta: { title: '设备信息' }
+    }, {
+        path: 'statistics',
+        name: 'Statistics',
+        component: () => import('@/views/information/statistics.vue'),
+        meta: { title: '统计信息' }
+    }]
+}, {
     path: '/settings',
-    component: Layout,  
+    component: Layout,
     name: 'Settings',
     redirect: '/settings/base',
     meta: { title: '设置' },

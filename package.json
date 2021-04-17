@@ -13,15 +13,20 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@microsoft/signalr": "^5.0.5",
     "@types/js-cookie": "^2.2.6",
     "axios": "^0.21.1",
     "echarts": "^5.0.2",
     "element-plus": "^1.0.2-beta.36",
     "js-cookie": "^2.2.1",
     "js-md5": "^0.7.3",
+    "moment": "^2.29.1",
     "path-to-regexp": "^6.2.0",
     "qier-progress": "^1.0.4",
+    "qrcanvas": "^3.1.2",
+    "qrcodejs2": "^0.0.2",
     "vue": "^3.0.5",
+    "vue-qr": "^2.3.0",
     "vue-router": "4",
     "vuex": "^4.0.0"
   },

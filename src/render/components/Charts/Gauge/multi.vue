@@ -11,11 +11,10 @@ import {
 } from "vue";
 import { initChart } from "./gaugeFuns";
 import { ECharts } from "echarts/core";
-import resize from "../mixins/resize";
+import { initListener } from "../mixins/resize";
 
 export default defineComponent({
   name: "SimpleChart",
-  mixins: [resize],
   props: {
     className: {
       type: String,
@@ -44,9 +43,10 @@ export default defineComponent({
   },
   methods: {},
   setup(prop, context) {
-    let chart = reactive({ echart: {} as ECharts });
+    let chart = reactive({} as ECharts);
     onMounted(() => {
-      chart.echart = initChart(document.getElementById(prop.id));
+      chart = initChart(document.getElementById(prop.id));
+      initListener(chart);
     });
     watch(prop, (nprop, o) => {
       let dc = nprop.option.series[0].data.length;
@@ -78,7 +78,7 @@ export default defineComponent({
         element.detail.offsetCenter = [`${startX}%`, "90%"];
         startX = startX + 30;
       });
-      chart.echart.setOption(nprop.option);
+      chart.setOption(nprop.option);
     });
     return {
       chart,

@@ -1,3 +1,6 @@
+import { restResultType } from "@/models";
+import { ElMessage } from "element-plus";
+
 /**
  * Created by PanJiaChen on 16/11/18.
  */
@@ -157,4 +160,116 @@ export function debounce(func: Function, wait: number, immediate?: Boolean) {
 
     return result
   }
+}
+
+/**
+ * This is just a simple version of deep copy
+ * Has a lot of edge cases bug
+ * If you want to use a perfect deep copy, use lodash's _.cloneDeep
+ * @param {Object} source
+ * @returns {Object}
+ */
+export function deepClone(source) {
+  if (!source && typeof source !== 'object') {
+    throw new Error('error arguments')
+  }
+  const targetObj = source.constructor === Array ? [] : {}
+  Object.keys(source).forEach(keys => {
+    if (source[keys] && typeof source[keys] === 'object') {
+      targetObj[keys] = deepClone(source[keys])
+    } else {
+      targetObj[keys] = source[keys]
+    }
+  })
+  return targetObj
+}
+
+/**
+ * @param {Array} arr
+ * @returns {Array}
+ */
+export function uniqueArr(arr: []) {
+  return Array.from(new Set(arr))
+}
+
+/**
+ * @returns {string}
+ */
+export function createUniqueString() {
+  const timestamp = +new Date() + '';
+  const randomNum = parseInt((1 + Math.random()) * 65536 + '');
+  return (+(randomNum + timestamp)).toString(32)
+}
+
+/**
+ * Check if an element has a class
+ * @param {HTMLElement} elm
+ * @param {string} cls
+ * @returns {boolean}
+ */
+export function hasClass(ele: HTMLElement, cls: string): boolean {
+  return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+}
+
+/**
+ * Add class to element
+ * @param {HTMLElement} elm
+ * @param {string} cls
+ */
+export function addClass(ele: HTMLElement, cls: string) {
+  if (!hasClass(ele, cls)) ele.className += ' ' + cls
+}
+
+/**
+ * Remove class from element
+ * @param {HTMLElement} elm
+ * @param {string} cls
+ */
+export function removeClass(ele: HTMLElement, cls: string) {
+  if (hasClass(ele, cls)) {
+    const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
+    ele.className = ele.className.replace(reg, ' ')
+  }
+}
+
+
+
+/**
+ * 检查模拟器
+ * @param serverValue 存储模拟器的值
+ * @returns 
+ */
+export function checkServer(serverValue: string[] | string): boolean {
+  if (!serverValue || serverValue.length == 0) {
+    ElMessage.warning("当前没有模拟器数据");
+    return false;
+  }
+  return true;
+}
+
+
+
+/**
+ * 处理固定返回结果
+ * @param requestPromise 请求Promise
+ * @param errorTitle 错误信息提示标题
+ * @param positiveFun 正确处理回调，没有则ElMessage.success(restResult.data)
+ */
+export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?: string, positiveFun?: Function): void {
+  requestPromise.then(
+    (restResult: restResultType) => {
+      if (restResult.isPositive) {
+        if (positiveFun) {
+          positiveFun(restResult);
+        } else {
+          ElMessage.success(restResult.data);
+        }
+      } else {
+        ElMessage.error(`${errorTitle ? errorTitle + '：' : ""}${restResult.errorMsg}`);
+      }
+    },
+    (error) => {
+      ElMessage.error(`${errorTitle ? errorTitle + '：' : ""}${error.message}`);
+    }
+  )
 }

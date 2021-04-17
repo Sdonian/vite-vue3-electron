@@ -5,11 +5,14 @@ import vuex from './store'
 //import {ElButton,ElSelect} from 'element-plus'
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
-import './style/index.scss'
+import 'dayjs/locale/zh-cn'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
+//import './styles/element-variables.module.scss'
+import './styles/index.scss'
 import './permission'
 
 //element-plus global options
-const elgOptions = { size: 'small', zIndex: 3000 };
+const elgOptions = { size: 'small', zIndex: 3000, locale };
 
 const vueApp = createApp(App);
 
