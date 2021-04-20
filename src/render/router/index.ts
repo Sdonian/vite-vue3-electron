@@ -40,13 +40,13 @@ const routers: RouteRecordRaw[] = [{
     path: '/settings',
     component: Layout,
     name: 'Settings',
-    redirect: '/settings/base',
+    redirect: '/settings/serverSetting',
     meta: { title: '设置' },
     children: [{
-        path: 'base',
-        name: 'Settings',
+        path: 'serverSetting',
+        name: 'ServerSetting',
         component: () => import('@/views/settings/index.vue'),
-        meta: { title: '基础' }
+        meta: { title: '模拟器设置' }
     }, {
         path: 'configSetting',
         name: 'ConfigSetting',

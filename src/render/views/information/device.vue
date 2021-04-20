@@ -20,14 +20,21 @@
       placeholder="设备编号"
       style="width: 200px"
       class="filter-item"
+      clearable
     />
-    <el-button class="filter-item" type="primary" icon="el-icon-search">
+    <el-button
+      class="filter-item"
+      @click="handleQuery(info)"
+      type="primary"
+      icon="el-icon-search"
+    >
       搜索
     </el-button>
   </div>
+  <!-- v-tableLoadMore="load" -->
   <el-table
     v-loading="info.tableLoading"
-    max-height="700"
+    max-height="660"
     style="width: 100%"
     border
     :data="info.deviceList"
@@ -110,7 +117,7 @@
     </el-table-column>
     <el-table-column
       label="首次连接时间"
-      width="120"
+      width="140"
       align="center"
       sortable
       prop="firstConnectTime"
@@ -118,7 +125,7 @@
     </el-table-column>
     <el-table-column
       label="最后连接时间"
-      width="120"
+      width="140"
       align="center"
       sortable
       prop="lastConnectTime"
@@ -153,15 +160,32 @@
       </template>
     </el-table-column>
   </el-table>
+  <!-- hide-on-single-page -->
+  <el-pagination
+    background
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="info.pageIndex"
+    :page-sizes="info.pageSizes"
+    :page-size="info.deviceListQuery.pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="info.dataTotal"
+  >
+  </el-pagination>
   <vueQR ref="vueQRRef"></vueQR>
 </template>
 
 <script lang="ts">
-import { deviceListQueryInfoType, clientViewInfoType } from "@/models";
 import { defineComponent, onMounted, reactive, watch, ref } from "vue";
 import { getServerOptions } from "../shortcut/index";
-import { getDeviceList, deviceInfoType } from "./index";
+import {
+  cacheDeviceList,
+  deviceInfoType,
+  getDeviceList,
+  handleQuery,
+} from "./index";
 import vueQR from "@/components/QRcode/index.vue";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -171,12 +195,14 @@ export default defineComponent({
     const vueQRRef = ref(null);
     let info: deviceInfoType = reactive<deviceInfoType>({
       deviceListQuery: {
-        deviceNum: 1,
+        deviceNum: null,
         serverId: "",
-        pageSize: 100,
+        pageSize: 50,
         pageIndex: 1,
       },
-      tableLoading: true,
+      dataTotal: 0,
+      pageSizes: [50, 300, 500, 1000],
+      tableLoading: false,
       deviceList: [],
       serverOptions: [],
       serverValue: "",
@@ -189,7 +215,8 @@ export default defineComponent({
       if (info.serverOptions.length > 0) {
         info.serverValue = info.serverOptions[0].value;
         info.deviceListQuery.serverId = info.serverValue;
-        getDeviceList(info);
+        //getDeviceList(info);
+        cacheDeviceList(info);
       }
     });
     onMounted(() => {});
@@ -202,12 +229,21 @@ export default defineComponent({
           devicenNum
         );
       },
+      handleSizeChange: (val) => {
+        info.deviceListQuery.pageSize = val;
+        getDeviceList(info);
+      },
+      handleCurrentChange: (val) => {
+        info.deviceListQuery.pageIndex = val;
+        getDeviceList(info);
+      },
+      handleQuery,
     };
   },
 });
 </script>
 <style lang="scss" scoped>
-.device-table {
-  height: calc(100% - 53px);
+.el-pagination {
+  margin-top: 10px;
 }
 </style>

@@ -6,6 +6,8 @@ import PayChargeInfo from "./PayChargeInfo"
 import TimingOfflineInfo from "./TimingOfflineInfo"
 import DeviceListQueryInfo from "./DeviceListQueryInfo"
 import ClientViewInfo from './ClientViewInfo'
+import PageListInfo from './PageListInfo'
+import AppsettingsInfo from './AppsettingsInfo'
 
 export interface allSourceInfoType extends AllSourceInfo { };
 export interface homeInfoType extends HomeInfo { };
@@ -15,3 +17,5 @@ export interface payChargeInfoType extends PayChargeInfo { };
 export interface timingOfflineInfoType extends TimingOfflineInfo { };
 export interface deviceListQueryInfoType extends DeviceListQueryInfo { };
 export interface clientViewInfoType extends ClientViewInfo { };
+export interface pageListInfoType<T> extends PageListInfo<T> { };
+export interface appsettingsInfoType extends AppsettingsInfo { };

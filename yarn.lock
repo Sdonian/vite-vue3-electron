@@ -2545,11 +2545,6 @@ qrcode-generator@^1.4.4:
   resolved "https://registry.npm.taobao.org/qrcode-generator/download/qrcode-generator-1.4.4.tgz#63f771224854759329a99048806a53ed278740e7"
   integrity sha1-Y/dxIkhUdZMpqZBIgGpT7SeHQOc=
 
-qrcodejs2@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.npm.taobao.org/qrcodejs2/download/qrcodejs2-0.0.2.tgz#465afe5e39f19facecb932c11f7a186109146ae1"
-  integrity sha1-Rlr+Xjnxn6zsuTLBH3oYYQkUauE=
-
 querystringify@^2.1.1:
   version "2.2.0"
   resolved "https://registry.npm.taobao.org/querystringify/download/querystringify-2.2.0.tgz?cache=0&sync_timestamp=1597687052330&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fquerystringify%2Fdownload%2Fquerystringify-2.2.0.tgz#3345941b4153cb9d082d8eee4cda2016a9aef7f6"
@@ -3028,6 +3023,11 @@ textextensions@^5.11.0:
   resolved "https://registry.npm.taobao.org/textextensions/download/textextensions-5.12.0.tgz?cache=0&sync_timestamp=1604235710626&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftextextensions%2Fdownload%2Ftextextensions-5.12.0.tgz#b908120b5c1bd4bb9eba41423d75b176011ab68a"
   integrity sha1-uQgSC1wb1LueukFCPXWxdgEatoo=
 
+throttle-debounce@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/throttle-debounce/download/throttle-debounce-3.0.1.tgz?cache=0&sync_timestamp=1604313880785&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fthrottle-debounce%2Fdownload%2Fthrottle-debounce-3.0.1.tgz#32f94d84dfa894f786c9a1f290e7a645b6a19abb"
+  integrity sha1-MvlNhN+olPeGyaHykOemRbahmrs=
+
 to-fast-properties@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/to-fast-properties/download/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
@@ -3290,10 +3290,12 @@ vite@^2.1.3:
   optionalDependencies:
     fsevents "~2.3.1"
 
-vue-qr@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npm.taobao.org/vue-qr/download/vue-qr-2.3.0.tgz#d659ee9db2bc717a2b46bd0e7a5414e75a7a3bba"
-  integrity sha1-1lnunbK8cXorRr0OelQU51p6O7o=
+vue-json-editor@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.npm.taobao.org/vue-json-editor/download/vue-json-editor-1.4.3.tgz#004c9037ac91f16dd8fc558c9914e5f33a41d71c"
+  integrity sha1-AEyQN6yR8W3Y/FWMmRTl8zpB1xw=
+  dependencies:
+    vue "^2.2.6"
 
 vue-router@4:
   version "4.0.5"
@@ -3306,6 +3308,11 @@ vue-tsc@^0.0.8:
   integrity sha1-KykS0MEeDXv9jU6omIPFrNcirDk=
   dependencies:
     unzipper latest
+
+vue@^2.2.6:
+  version "2.6.12"
+  resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.12.tgz?cache=0&sync_timestamp=1617321643721&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue%2Fdownload%2Fvue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
+  integrity sha1-9evU+mvShpQD4pqJau1JBEVskSM=
 
 vue@^3.0.5:
   version "3.0.9"

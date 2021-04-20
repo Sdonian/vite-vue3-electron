@@ -71,12 +71,12 @@ export default defineComponent({
       chargeChannel: [],
     });
     //初始化充电通道
-    for (let index = 0; index < 10; index++) {
+    for (let index = 1; index <= 10; index++) {
       info.chargeChannel.push({ value: index, label: index });
     }
     let formModel = reactive({
       serverList: prop.serverValue,
-      chargeChannel: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      chargeChannel: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       payMoney: 100,
       batchPayCount: 1,
       intervalSecond: 3,

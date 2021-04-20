@@ -10,6 +10,7 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 //import './styles/element-variables.module.scss'
 import './styles/index.scss'
 import './permission'
+import tableLoadMore from '@/directive/el-table/tableLoadMore'
 
 //element-plus global options
 const elgOptions = { size: 'small', zIndex: 3000, locale };
@@ -25,5 +26,6 @@ vueApp.use(ElementPlus, elgOptions);
 //vueApp.config.globalProperties.$ELEMENT = elgOptions;
 vueApp.use(vuex);
 vueApp.use(router);
+vueApp.directive("tableLoadMore", tableLoadMore);
 vueApp.mount('#app');
 

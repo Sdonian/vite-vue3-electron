@@ -18,3 +18,21 @@ export function cacheDeviceList(serverId: string): Promise<any> {
 export function getDeviceList(deviceListQueryInfo: deviceListQueryInfoType): Promise<any> {
     return request.httpPost('information/getDeviceList', deviceListQueryInfo);
 }
+
+/**
+ * 缓存模拟器配置信息
+ * @param serverId 模拟器Id
+ * @returns request Promise 
+ */
+ export function cacheServerConfig(serverId: string): Promise<any> {
+    return request.httpGet('information/cacheServerConfig', { serverId });
+}
+
+/**
+ * 获取模拟器配置信息
+ * @param serverId 模拟器Id
+ * @returns request Promise 
+ */
+ export function getServerConfig(serverId: string): Promise<any> {
+    return request.httpGet('information/getServerConfig', { serverId });
+}

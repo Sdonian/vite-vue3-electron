@@ -3,8 +3,11 @@ import { ElMessage } from "element-plus";
 import { allSourceInfoType, homeInfoType, restResultType } from "@/models";
 import { HubConnection, HubConnectionState, HubConnectionBuilder } from '@microsoft/signalr'
 import moment from 'moment'
+import request from '@/utils/request'
 
-const baseUrl = "http://localhost:5000/"
+//const baseUrl = "http://localhost:5000/"
+//const baseUrl = 'http://132.232.34.148/'
+const baseUrl = request.getConfig().baseUrl;
 
 //http方式获取所有资源信息
 export function GetAllSourceInfo(info: homeInfoType) {
@@ -68,7 +71,7 @@ function CalcAllSourceInfo(info: homeInfoType) {
     data0.shift();
     data0.push(allInfo.chargeDeviceCount);
     data1.shift();
-    data1.push(allInfo.channelCount);
+    data1.push(allInfo.chargeChannelCount);
     data2.shift();
     data2.push(allInfo.orderQueueCount);
     data3.shift();

@@ -1,17 +1,19 @@
 import axios, { AxiosInstance } from 'axios';
-//const baseUrl = 'http://132.232.34.148/api/'
-const baseUrl = "http://localhost:5000/api"
+const baseUrl = 'http://132.232.34.148/'
+//const baseUrl = "http://localhost:5000/api"
 import { getToken } from '@/utils/auth'
 import { useStore } from 'vuex'
-
+import QProgress from 'qier-progress'
 const store = useStore();
-
+const qprogress = new QProgress({
+  height: 4
+});
 class request {
   public _http: AxiosInstance;
   private static instance: request;
   private constructor() {
     this._http = axios.create({
-      baseURL: baseUrl,
+      baseURL: `${baseUrl}api/`,
       timeout: 5000
     });
 
@@ -20,13 +22,22 @@ class request {
         // if (store.getters.token) {
         //   config.headers.common['authorization'] = 'Bearer ' + getToken();
         // }
+        qprogress.start();
         return config
       },
       error => {
         console.log(error) // for debug
         return Promise.reject(error)
       }
-    )
+    );
+    this._http.interceptors.response.use(
+      response => {
+        qprogress.finish();
+        return response;
+      }, error => {
+        return Promise.reject(error)
+      }
+    );
   }
   //单例
   static getInstance() {

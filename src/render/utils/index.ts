@@ -255,7 +255,7 @@ export function checkServer(serverValue: string[] | string): boolean {
  * @param errorTitle 错误信息提示标题
  * @param positiveFun 正确处理回调，没有则ElMessage.success(restResult.data)
  */
-export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?: string, positiveFun?: Function): void {
+export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?: string, positiveFun?: Function, errorFun?: Function): void {
   requestPromise.then(
     (restResult: restResultType) => {
       if (restResult.isPositive) {
@@ -266,10 +266,12 @@ export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?
         }
       } else {
         ElMessage.error(`${errorTitle ? errorTitle + '：' : ""}${restResult.errorMsg}`);
+        if (errorFun) errorFun();
       }
     },
     (error) => {
       ElMessage.error(`${errorTitle ? errorTitle + '：' : ""}${error.message}`);
+      if (errorFun) errorFun();
     }
   )
 }

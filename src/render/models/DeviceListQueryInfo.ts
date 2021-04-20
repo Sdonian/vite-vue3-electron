@@ -6,7 +6,7 @@ export default interface DeviceListQueryInfo {
     /**
      * 设备编号
      */
-    deviceNum: number;
+    deviceNum?: number;
     /**
      * 页面大小
      */
