@@ -40,8 +40,7 @@ export function getDeviceList(info: serverSettingInfoType) {
                     setTimeout(() => {
                         getDeviceList(info);
                     }, 1000);
-                } else {
-                    
+                } else {                    
                     info.formLoading = false;
                 }
             }, () => {
