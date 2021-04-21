@@ -1,30 +1,30 @@
 export default interface AppsettingsInfo {
-    registerKey: string;
-    registerId: string;
-    defaultAesKey: string;
-    defaultDeviceNum: string;
-    deviceTypes: string[];
-    serverAddress: {
-        ip: string;
-        port: number;
+    RegisterKey: string;
+    RegisterId: string;
+    DefaultAesKey: string;
+    DefaultDeviceNum: string;
+    DeviceTypes: string[];
+    ServerAddress: {
+        Ip: string;
+        Port: number;
     };
-    payChargeUrl: string;
-    getTokenUrl: string;
-    elasticsearch: string;
-    redisSetting: {
-        connectionStr: string;
+    PayChargeUrl: string;
+    GetTokenUrl: string;
+    Elasticsearch: string;
+    RedisSetting: {
+        ConnectionStr: string;
     };
-    rabbitMQSetting: {
-        managerTopicRoute: string;
-        systemMsgQueueName: string;
-        connectionConfiguration: {
-            userName: string;
-            password: string;
-            virtualHost: string;
-            hosts: {
-                host: string;
-                port: string;
-            };
+    RabbitMQSetting: {
+        ManagerTopicRoute: string;
+        SystemMsgQueueName: string;
+        ConnectionConfiguration: {
+            UserName: string;
+            Password: string;
+            VirtualHost: string;
+            Hosts: {
+                Host: string;
+                Port: string;
+            }[];
         };
     };
 }

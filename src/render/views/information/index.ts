@@ -63,6 +63,7 @@ export function getDeviceList(info: deviceInfoType) {
  */
 export function cacheDeviceList(info: deviceInfoType) {
     info.tableLoading = true;
+    getDeviceListCount = 0;
     if (checkServer(info.deviceListQuery.serverId)) {
         disposeFixedRestResult(api.information.cacheDeviceList(info.serverValue), "缓存设备列表错误", (restResult: restResultType) => {
             ElMessage.info("缓存成功开始获取设备列表.");

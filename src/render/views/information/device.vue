@@ -6,6 +6,7 @@
       class="filter-item"
       :size="small"
       popper-class="select-popper"
+      @change="serverChange"
     >
       <el-option
         v-for="item in info.serverOptions"
@@ -238,6 +239,11 @@ export default defineComponent({
         getDeviceList(info);
       },
       handleQuery,
+      serverChange(val) {
+        info.deviceListQuery.pageIndex = 1;
+        info.deviceListQuery.serverId = val;
+        cacheDeviceList(info);
+      },
     };
   },
 });

@@ -13,6 +13,7 @@ import { disposeFixedRestResult, checkServer } from '@/utils'
 export function getServerOptions(serverOptions: any[], serverValue: string[] = null): void {
     if (serverValue != null) serverValue.splice(0, serverValue.length);
     disposeFixedRestResult(api.manager.serverList(), "获取模拟器信息错误", (restResult: restResultType) => {
+        serverOptions.splice(0,serverOptions.length);
         restResult.data.forEach((data: string) => {
             serverOptions.push({
                 value: data,

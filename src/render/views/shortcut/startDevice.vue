@@ -29,7 +29,7 @@ import { startDeviceInfoType, restResultType } from "@/models";
 import api from "@/api";
 import { ElMessage } from "element-plus";
 export default defineComponent({
-  name:'startDevice',
+  name: "startDevice",
   props: {
     serverValue: {
       type: Array,
@@ -40,7 +40,7 @@ export default defineComponent({
     let info = reactive({
       dialogVisible: false,
       formLabelWidth: "80px",
-    }); 
+    });
     let formModel = reactive({
       serverList: prop.serverValue,
       startCount: 200,

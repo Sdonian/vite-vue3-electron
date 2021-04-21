@@ -24,7 +24,7 @@ export function getDeviceList(deviceListQueryInfo: deviceListQueryInfoType): Pro
  * @param serverId 模拟器Id
  * @returns request Promise 
  */
- export function cacheServerConfig(serverId: string): Promise<any> {
+export function cacheServerConfig(serverId: string): Promise<any> {
     return request.httpGet('information/cacheServerConfig', { serverId });
 }
 
@@ -33,6 +33,15 @@ export function getDeviceList(deviceListQueryInfo: deviceListQueryInfoType): Pro
  * @param serverId 模拟器Id
  * @returns request Promise 
  */
- export function getServerConfig(serverId: string): Promise<any> {
+export function getServerConfig(serverId: string): Promise<any> {
     return request.httpGet('information/getServerConfig', { serverId });
+}
+
+/**
+ * 保存模拟器配置信息
+ * @param  info  {serverList:string[],jsonStr:string}
+ * @returns request Promise 
+ */
+export function saveServerConfig(info: any): Promise<any> {
+    return request.httpPost('information/saveServerConfig', info);
 }
