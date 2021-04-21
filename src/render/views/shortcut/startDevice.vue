@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from "vue";
+import { defineComponent, reactive, watch } from "vue";
 import { startDeviceInfoType, restResultType } from "@/models";
 import api from "@/api";
 import { ElMessage } from "element-plus";
@@ -46,6 +46,9 @@ export default defineComponent({
       startCount: 200,
       intervalSecond: 10,
     } as startDeviceInfoType);
+    watch(prop, () => {
+      formModel.serverList = prop.serverValue as string[];
+    });
     return {
       info,
       formModel,
