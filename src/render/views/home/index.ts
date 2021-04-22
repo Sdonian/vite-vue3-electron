@@ -10,11 +10,11 @@ import request from '@/utils/request'
 const baseUrl = request.getConfig().baseUrl;
 
 //http方式获取所有资源信息
-export function GetAllSourceInfo(info: homeInfoType) {
+export function getAllSourceInfo(info: homeInfoType) {
     api.sourceInfo.GetAllSourceInfo().then(
         (data) => {
             info.allSourceInfo = { ...data.data };
-            CalcAllSourceInfo(info);
+            calcAllSourceInfo(info);
         },
         (error) => {
             console.log(error);
@@ -22,8 +22,12 @@ export function GetAllSourceInfo(info: homeInfoType) {
         }
     );
 }
-//计算所有资源
-function CalcAllSourceInfo(info: homeInfoType) {
+
+/**
+ * 计算所有资源信息
+ * @param info 首页信息集合
+ */
+ export function calcAllSourceInfo(info: homeInfoType) {
     let allInfo = info.allSourceInfo;
     //设备数据
     info.queueCountOption = {
@@ -78,31 +82,13 @@ function CalcAllSourceInfo(info: homeInfoType) {
     data3.push(allInfo.awaitOrderCount);
     info.chargeDataOption.xAxis.data.shift();
     info.chargeDataOption.xAxis.data.push(axisData);
-
-    // info.chargeCountOption = {
-    //   series: [
-    //     { max: allInfo.startCount, data: [{ value: allInfo.setingCount }] },
-    //   ],
-    // };
-    // info.chargeChannelCountOption = {
-    //   series: [
-    //     { max: allInfo.channelCount, data: [{ value: allInfo.setingCount }] },
-    //   ],
-    // };
-    // info.waitOrderCountOption = {
-    //   series: [
-    //     { max: allInfo.channelCount, data: [{ value: allInfo.setingCount }] },
-    //   ],
-    // };
-    // info.afOrderCountOption = {
-    //   series: [
-    //     { max: allInfo.channelCount, data: [{ value: allInfo.setingCount }] },
-    //   ],
-    // };
 }
 
-//初始化充电数据option
-export function InitChargeDataOption(info: homeInfoType) {
+/**
+ * 初始化充电数据option
+ * @param info 首页信息集合
+ */
+export function initChargeDataOption(info: homeInfoType) {
     let linebarLen = 30;
     //初始化
     info.chargeDataOption = {
@@ -194,72 +180,72 @@ export function InitChargeDataOption(info: homeInfoType) {
     };
 }
 
-let wsConnection: HubConnection = new HubConnectionBuilder().withUrl(`${baseUrl}sourceInfoHub`).withAutomaticReconnect().build();//signalr 链接对象
-let registerGetSourceInfoCount = 5;//webSocket启动次数，
-let homeInfo: homeInfoType = null;//home页面的数据
-//注册获取资源信息
-export async function RegisterGetSourceInfo(info: homeInfoType) {
-    //ElMessage.error(wsConnection.state);
-    homeInfo = info;
-    //判断是否实例化
-    if (wsConnection.state == HubConnectionState.Disconnected) {
-        //开始连接
-        try {
-            await wsConnection.start();
-            //正常则开始注册绑定
-            bindFun();
-        } catch (err) {
-            if (registerGetSourceInfoCount == 0) {
-                ElMessage.error("注册获取资源信息启动多次失败，请刷新页面.");
-            } else {
-                console.log(err);
-                ElMessage.error(`注册获取资源信息启动失败，两秒后开始重新链接,${err}`);
-                registerGetSourceInfoCount--;
-                setTimeout(() => {
-                    RegisterGetSourceInfo(info);
-                }, 2000);
-            }
-        }
-    } else {
-        console.log("判断链接状态");
-        //判断链接状态
-        if (wsConnection.state == HubConnectionState.Connected) {
+// let wsConnection: HubConnection = new HubConnectionBuilder().withUrl(`${baseUrl}sourceInfoHub`).withAutomaticReconnect().build();//signalr 链接对象
+// let registerGetSourceInfoCount = 5;//webSocket启动次数，
+// let homeInfo: homeInfoType = null;//home页面的数据
+// //注册获取资源信息
+// export async function RegisterGetSourceInfo(info: homeInfoType) {
+//     //ElMessage.error(wsConnection.state);
+//     homeInfo = info;
+//     //判断是否实例化
+//     if (wsConnection.state == HubConnectionState.Disconnected) {
+//         //开始连接
+//         try {
+//             await wsConnection.start();
+//             //正常则开始注册绑定
+//             bindFun();
+//         } catch (err) {
+//             if (registerGetSourceInfoCount == 0) {
+//                 ElMessage.error("注册获取资源信息启动多次失败，请刷新页面.");
+//             } else {
+//                 console.log(err);
+//                 ElMessage.error(`注册获取资源信息启动失败，两秒后开始重新链接,${err}`);
+//                 registerGetSourceInfoCount--;
+//                 setTimeout(() => {
+//                     RegisterGetSourceInfo(info);
+//                 }, 2000);
+//             }
+//         }
+//     } else {
+//         console.log("判断链接状态");
+//         //判断链接状态
+//         if (wsConnection.state == HubConnectionState.Connected) {
 
-        }
-    }
-}
+//         }
+//     }
+// }
 
-//绑定事件方法
-function bindFun() {
-    wsConnection.send("registerGetSourceInfo", "receiveSourceInfo", 2).then(() => {
-        ElMessage.success(`注册获取资源信息成功！`);
-        wsConnection.off("receiveSourceInfo");//移除之前的
-        //处理服务器推送过来的数据
-        wsConnection.on("receiveSourceInfo", (res) => {
-            let { data, isPositive } = JSON.parse(res) as restResultType;
-            if (isPositive) {
-                // ElMessage(`执行了${new Date().valueOf()}`);
-                //console.log(`执行了${new Date().valueOf()}`);
-                homeInfo.allSourceInfo = data;
-                CalcAllSourceInfo(homeInfo);
-            }
-        })
-    });
-}
+// //绑定事件方法
+// function bindFun() {
+//     wsConnection.send("registerGetSourceInfo", "receiveSourceInfo", 2).then(() => {
+//         ElMessage.success(`注册获取资源信息成功！`);
+//         wsConnection.off("receiveSourceInfo");//移除之前的
+//         //处理服务器推送过来的数据
+//         wsConnection.on("receiveSourceInfo", (res) => {
+//             let { data, isPositive } = JSON.parse(res) as restResultType;
+//             if (isPositive) {
+//                 // ElMessage(`执行了${new Date().valueOf()}`);
+//                 //console.log(`执行了${new Date().valueOf()}`);
+//                 homeInfo.allSourceInfo = data;
+//                 CalcAllSourceInfo(homeInfo);
+//             }
+//         })
+//     });
+// }
 
-//webSocket断开重连
-wsConnection.onreconnecting(error => {
-    console.error(error);
-    ElMessage.error(`获取资源信息链接断开，开始自动重连`);
-});
-//webSocket重连失败后
-wsConnection.onclose(error => {
-    console.error(error);
-    ElMessage.error(`获取资源信息链接关闭`);
-});
-//webSocket重连成功后
-wsConnection.onreconnected(() => {
-    ElMessage.success(`获取资源信息重连成功，重新注册获取资源！`);
-    //重新绑定一遍
-    bindFun();
-});
+// //webSocket断开重连
+// wsConnection.onreconnecting(error => {
+//     console.error(error);
+//     ElMessage.error(`获取资源信息链接断开，开始自动重连`);
+// });
+// //webSocket重连失败后
+// wsConnection.onclose(error => {
+//     console.error(error);
+//     ElMessage.error(`获取资源信息链接关闭`);
+// });
+// //webSocket重连成功后
+// wsConnection.onreconnected(() => {
+//     ElMessage.success(`获取资源信息重连成功，重新注册获取资源！`);
+//     //重新绑定一遍
+//     bindFun();
+// });

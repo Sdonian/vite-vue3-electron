@@ -1,121 +1,160 @@
 <template>
   <div class="drawer-container">
-    <div>
-      <h3 class="drawer-title">快捷操作</h3>
-      <div class="drawer-item">
-        <el-row>
-          <el-select
-            v-model="info.serverValue"
-            multiple
-            placeholder="请选择"
-            :size="small"
-            clearable
-            popper-class="select-popper"
+    <h3 class="drawer-title">快捷操作</h3>
+    <div class="drawer-item">
+      <el-row>
+        <el-select
+          v-model="info.serverValue"
+          multiple
+          placeholder="请选择"
+          :size="small"
+          clearable
+          popper-class="select-popper"
+        >
+          <el-option
+            v-for="item in info.serverOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           >
-            <el-option
-              v-for="item in info.serverOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-row>
-        <el-row>
-          <StartDevice
-            ref="startDeviceRef"
-            :serverValue="info.serverValue"
-          ></StartDevice>
-          <div class="pan-btn tiffany-btn" @click="openStartDevice(false)">
-            启动设备
-          </div>
-          <div class="pan-btn tiffany-btn" @click="openStartDevice(true)">
-            定时启动
-          </div>
-          <div class="pan-btn tiffany-btn" @click="stopStart(info.serverValue)">
-            定时启动取消
-          </div>
-        </el-row>
-        <el-row>
-          <PayCharge
-            ref="payChargeRef"
-            :serverValue="info.serverValue"
-          ></PayCharge>
-          <div class="pan-btn tiffany-btn" @click="openPayCharge(false)">
-            钱包支付
-          </div>
-          <div class="pan-btn tiffany-btn" @click="openPayCharge(true)">
-            定时支付
-          </div>
-          <div
-            class="pan-btn tiffany-btn"
-            @click="cancelTimePay(info.serverValue)"
-          >
-            定时支付取消
-          </div>
-        </el-row>
-        <el-row>
-          <TimingOffline
-            ref="timingOfflineRef"
-            :serverValue="info.serverValue"
-          ></TimingOffline>
-          <div class="pan-btn tiffany-btn" @click="coinCharge">投币充电</div>
-          <div class="pan-btn tiffany-btn" @click="openTimingOffline">
-            定时下线
-          </div>
-          <div
-            class="pan-btn tiffany-btn"
-            @click="cancelTimingOffline(info.serverValue)"
-          >
-            定时下线取消
-          </div>
-        </el-row>
+          </el-option>
+        </el-select>
+      </el-row>
+      <el-row>
+        <StartDevice
+          ref="startDeviceRef"
+          :serverValue="info.serverValue"
+        ></StartDevice>
+        <div class="pan-btn tiffany-btn" @click="openStartDevice(false)">
+          启动设备
+        </div>
+        <div class="pan-btn tiffany-btn" @click="openStartDevice(true)">
+          定时启动
+        </div>
+        <div class="pan-btn tiffany-btn" @click="stopStart(info.serverValue)">
+          定时启动取消
+        </div>
+      </el-row>
+      <el-row>
+        <PayCharge
+          ref="payChargeRef"
+          :serverValue="info.serverValue"
+        ></PayCharge>
+        <div class="pan-btn tiffany-btn" @click="openPayCharge(false)">
+          钱包支付
+        </div>
+        <div class="pan-btn tiffany-btn" @click="openPayCharge(true)">
+          定时支付
+        </div>
+        <div
+          class="pan-btn tiffany-btn"
+          @click="cancelTimePay(info.serverValue)"
+        >
+          定时支付取消
+        </div>
+      </el-row>
+      <el-row>
+        <TimingOffline
+          ref="timingOfflineRef"
+          :serverValue="info.serverValue"
+        ></TimingOffline>
+        <div class="pan-btn tiffany-btn" @click="coinCharge">投币充电</div>
+        <div class="pan-btn tiffany-btn" @click="openTimingOffline">
+          定时下线
+        </div>
+        <div
+          class="pan-btn tiffany-btn"
+          @click="cancelTimingOffline(info.serverValue)"
+        >
+          定时下线取消
+        </div>
+      </el-row>
 
-        <el-row>
-          <div class="pan-btn tiffany-btn" @click="autoRun(info.serverValue)">
-            开启自动运行
-          </div>
-          <div
-            class="pan-btn tiffany-btn"
-            @click="cancelAutoRun(info.serverValue)"
-          >
-            取消自动运行
-          </div>
-          <div
-            class="pan-btn tiffany-btn"
-            @click="saveSettings(info.serverValue)"
-          >
-            保存同步设置
-          </div>
-        </el-row>
+      <el-row>
+        <div class="pan-btn tiffany-btn" @click="autoRun(info.serverValue)">
+          开启自动运行
+        </div>
+        <div
+          class="pan-btn tiffany-btn"
+          @click="cancelAutoRun(info.serverValue)"
+        >
+          取消自动运行
+        </div>
+        <div
+          class="pan-btn tiffany-btn"
+          @click="saveSettings(info.serverValue)"
+        >
+          保存同步设置
+        </div>
+      </el-row>
 
-        <el-row>
-          <div class="pan-btn green-btn" @click="refreshServer">刷新模拟器</div>
-          <div class="pan-btn green-btn" @click="deviceBind(info.serverValue)">
-            设备绑定
-          </div>
-          <div
-            class="pan-btn green-btn"
-            @click="deviceOnline(info.serverValue)"
-          >
-            设备上线
-          </div>
-        </el-row>
-        <el-row>
-          <div class="pan-btn red-btn" @click="stopCharge(info.serverValue)">
-            停止充电
-          </div>
-          <div
-            class="pan-btn red-btn"
-            @click="restartSysServer(info.serverValue)"
-          >
-            重启服务
-          </div>
-          <div class="pan-btn red-btn" @click="clearDataLog(info.serverValue)">
-            清理数据日志
-          </div>
-        </el-row>
-      </div>
+      <el-row>
+        <div class="pan-btn green-btn" @click="refreshServer">刷新模拟器</div>
+        <div class="pan-btn green-btn" @click="deviceBind(info.serverValue)">
+          设备绑定
+        </div>
+        <div class="pan-btn green-btn" @click="deviceOnline(info.serverValue)">
+          设备上线
+        </div>
+      </el-row>
+      <el-row>
+        <div class="pan-btn red-btn" @click="stopCharge(info.serverValue)">
+          停止充电
+        </div>
+        <div
+          class="pan-btn red-btn"
+          @click="restartSysServer(info.serverValue)"
+        >
+          重启服务
+        </div>
+        <div class="pan-btn red-btn" @click="clearDataLog(info.serverValue)">
+          清理数据日志
+        </div>
+      </el-row>
+    </div>
+    <h3 class="drawer-title">模拟器消息</h3>
+    <div class="drawer-item">
+      <el-card shadow="hover" :body-style="{ padding: '2px' }">
+        <div class="server-msgs">
+          <el-scrollbar wrap-class="scrollbar-wrapper">
+            <div class="server-msgs-item">
+              <span class="time">2021-04-22 09:03:03</span>
+              <span class="oper">lipeng</span>
+              <span class="text"
+                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
+              >
+            </div>
+            <div class="server-msgs-item">
+              <span class="time">2021-04-22 09:03:03</span>
+              <span class="oper">lipeng</span>
+              <span class="text"
+                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
+              >
+            </div>
+            <div class="server-msgs-item">
+              <span class="time">2021-04-22 09:03:03</span>
+              <span class="oper">lipeng</span>
+              <span class="text"
+                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
+              >
+            </div>
+            <div class="server-msgs-item">
+              <span class="time">2021-04-22 09:03:03</span>
+              <span class="oper">lipeng</span>
+              <span class="text"
+                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
+              >
+            </div>
+            <div class="server-msgs-item">
+              <span class="time">2021-04-22 09:03:03</span>
+              <span class="oper">lipeng</span>
+              <span class="text"
+                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
+              >
+            </div>
+          </el-scrollbar>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -126,6 +165,7 @@ import StartDevice from "./startDevice.vue";
 import PayCharge from "./payCharge.vue";
 import TimingOffline from "./timingOffline.vue";
 import { checkServer } from "@/utils";
+import { init } from "@/websocket";
 
 // import {
 //   checkServer,
@@ -157,7 +197,9 @@ export default defineComponent({
 
     //获取options数据
     funs.getServerOptions(info.serverOptions, info.serverValue);
-    onMounted(() => {});
+    onMounted(() => {
+      init();
+    });
     return {
       info,
       ...funs,
@@ -204,7 +246,7 @@ export default defineComponent({
   cursor: pointer;
 }
 .drawer-container {
-  padding: 24px;
+  padding: 12px 24px;
   font-size: 14px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -219,7 +261,7 @@ export default defineComponent({
   .drawer-item {
     color: rgba(0, 0, 0, 0.65);
     font-size: 14px;
-    padding: 12px 0;
+    // padding: 12px 0;
   }
 
   .drawer-switch {
@@ -242,5 +284,30 @@ export default defineComponent({
 }
 .el-select {
   width: calc(100% - 18px);
+}
+.server-msgs {
+  height: 300px;
+  .server-msgs-item {
+    margin: 5px;
+    color: #000;
+    font-size: 14px;   
+    padding: 5px;
+    border-radius: 10px;
+    span {
+      display: inline-block;
+    }
+    .time {
+      color: rgb(66, 65, 65);
+    }
+    .oper {
+      padding-left: 20px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .text {
+      display: block;
+      font-size: 16px;
+    }
+  }
 }
 </style>

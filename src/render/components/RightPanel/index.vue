@@ -109,6 +109,7 @@ function insertToBody(rightPanel) {
   transform: translate(100%);
   background: #fff;
   z-index: 1000;
+  background-color: #f0f2f5;
 }
 
 .show {

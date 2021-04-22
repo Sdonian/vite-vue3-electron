@@ -113,54 +113,12 @@
                   :title="'充电设备'"
                   v-model:option="info.chargeDataOption"
                 />
-                <!-- <SimpleGauge
-              height="100%"
-             width="25%"
-              :id="'chargeCount'"
-              :title="'充电设备'"
-              v-model:option="info.chargeCountOption"
-            />
-            <SimpleGauge
-              height="100%"
-             width="25%"
-              :id="'chargeChannelCount'"
-              :title="'充电端口'"
-              v-model:option="info.chargeChannelCountOption"
-            />
-            <SimpleGauge
-              height="100%"
-             width="25%"
-              :id="'waitOrderCount'"
-              :title="'待发送订单'"
-              v-model:option="info.waitOrderCountOption"
-            />
-            <SimpleGauge
-              height="100%"
-             width="25%"
-              :id="'afOrderCount'"
-              :title="'待确认订单'"
-              v-model:option="info.afOrderCountOption"
-            /> -->
               </div>
             </el-card>
           </el-col>
         </el-row>
       </el-col>
-      <!-- <el-col :span="8" class="shortcutCol">
-        <el-affix target=".shortcutCol" :offset="56">
-          <el-card shadow="hover" :body-style="{ padding: '4px' }">
-            <template #header>
-              <div class="card-header">
-                <span> 快捷功能 </span>
-              </div>
-            </template>
-            <div class="card-content-shortcutCol">
-              <el-button class="pan-btn tiffany-btn">测试</el-button>
-            </div>
-          </el-card>
-        </el-affix>        
-      </el-col> -->
-    </el-row> 
+    </el-row>
   </div>
 </template>
 
@@ -169,7 +127,8 @@ import { defineComponent, onMounted, reactive } from "vue";
 import SimpleGauge from "@/components/Charts/Gauge/simple.vue";
 import SimpleLineBar from "@/components/Charts/LineBar/simple.vue";
 import { allSourceInfoType, homeInfoType } from "@/models";
-import { RegisterGetSourceInfo, InitChargeDataOption } from "./index";
+import { initChargeDataOption, calcAllSourceInfo } from "./index";
+import { registerGetSourceInfo } from "@/websocket/sourceInfoHub";
 
 export default defineComponent({
   components: {
@@ -195,14 +154,14 @@ export default defineComponent({
     } as homeInfoType);
 
     //初始化充电数据
-    InitChargeDataOption(info);
+    initChargeDataOption(info);
     //GetAllSourceInfo(info);
     onMounted(() => {
-      // setInterval(() => {
-      //   GetAllSourceInfo(info);
-      // }, 1000);
       //注册获取资源信息
-      RegisterGetSourceInfo(info);
+      registerGetSourceInfo((data) => {
+        info.allSourceInfo = data;
+        calcAllSourceInfo(info);
+      });
     });
     return {
       info,
