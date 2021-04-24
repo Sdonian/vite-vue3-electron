@@ -254,6 +254,7 @@ export function checkServer(serverValue: string[] | string): boolean {
  * @param requestPromise 请求Promise
  * @param errorTitle 错误信息提示标题
  * @param positiveFun 正确处理回调，没有则ElMessage.success(restResult.data)
+ * @param errorFun 错误回调
  */
 export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?: string, positiveFun?: Function, errorFun?: Function): void {
   requestPromise.then(

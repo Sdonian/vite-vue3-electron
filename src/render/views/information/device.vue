@@ -184,7 +184,7 @@ import {
   deviceInfoType,
   getDeviceList,
   handleQuery,
-} from "./index";
+} from "./device";
 import vueQR from "@/components/QRcode/index.vue";
 import { ElMessage } from "element-plus";
 

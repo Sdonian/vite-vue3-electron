@@ -1,0 +1,65 @@
+{
+  "id": "2508525",
+  "name": "wzManagerWeb",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "20598613",
+      "name": "数据管理",
+      "font_class": "newData",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "4765881",
+      "name": "dashboard",
+      "font_class": "dashboard",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
+      "icon_id": "4765891",
+      "name": "setting",
+      "font_class": "setting",
+      "unicode": "e7a3",
+      "unicode_decimal": 59299
+    },
+    {
+      "icon_id": "4766298",
+      "name": "line chart",
+      "font_class": "linechart",
+      "unicode": "e7d1",
+      "unicode_decimal": 59345
+    },
+    {
+      "icon_id": "9230698",
+      "name": "View",
+      "font_class": "View",
+      "unicode": "e9d2",
+      "unicode_decimal": 59858
+    },
+    {
+      "icon_id": "7114552",
+      "name": "server",
+      "font_class": "server",
+      "unicode": "ec16",
+      "unicode_decimal": 60438
+    },
+    {
+      "icon_id": "7135545",
+      "name": "config",
+      "font_class": "config",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "16513327",
+      "name": "_charge",
+      "font_class": "charge-device",
+      "unicode": "e6e2",
+      "unicode_decimal": 59106
+    }
+  ]
+}

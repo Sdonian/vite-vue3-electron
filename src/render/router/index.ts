@@ -17,41 +17,46 @@ const routers: RouteRecordRaw[] = [{
         path: '/home',
         name: 'Home',
         component: () => import('@/views/home/index.vue'),
-        meta: { title: '首页' }
+        meta: { title: '首页', icon: 'icon-dashboard' }
     }]
 }, {
     path: '/information',
     component: Layout,
     name: 'information',
     redirect: '/information/device',
-    meta: { title: '数据信息' },
+    meta: { title: '数据信息', icon: 'icon-View' },
     children: [{
         path: 'device',
         name: 'Device',
         component: () => import('@/views/information/device.vue'),
-        meta: { title: '设备信息' }
+        meta: { title: '设备信息', icon: 'icon-charge-device' }
     }, {
         path: 'statistics',
         name: 'Statistics',
         component: () => import('@/views/information/statistics.vue'),
-        meta: { title: '统计信息' }
+        meta: { title: '统计信息', icon: 'icon-linechart' }
+    }, {
+        path: 'newData',
+        name: 'NewData',
+        component: () => import('@/views/information/newData.vue'),
+        meta: { title: '数据管理', icon: 'icon-newData' }
     }]
 }, {
     path: '/settings',
     component: Layout,
     name: 'Settings',
     redirect: '/settings/serverSetting',
-    meta: { title: '设置' },
+    meta: { title: '设置', icon: 'icon-setting' },
     children: [{
         path: 'serverSetting',
         name: 'ServerSetting',
         component: () => import('@/views/settings/index.vue'),
-        meta: { title: '模拟器设置' }
+        meta: { title: '模拟器设置', icon: 'icon-server' }
     }, {
         path: 'configSetting',
         name: 'ConfigSetting',
         component: () => import('@/views/settings/configSetting.vue'),
-        meta: { title: '配置文件' }
+        meta: { title: '配置文件', icon: 'icon-config' }
     }]
 }];
 const router = createRouter({

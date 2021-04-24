@@ -22,7 +22,7 @@ export default defineComponent({
     });
     return {
       info,
-      show: (text,title) => {
+      show: (text, title) => {
         info.dialogVisible = true;
         info.text = text;
         info.title = title;
@@ -33,6 +33,7 @@ export default defineComponent({
           size: 300,
           correctLevel: "H",
         });
+        document.querySelector("#qrcode").innerHTML = "";
         document.querySelector("#qrcode").appendChild(canvas);
       },
     };

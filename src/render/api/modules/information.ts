@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { deviceListQueryInfoType } from "@/models";
+import { deviceListQueryInfoType, createClientInfoType } from "@/models";
 
 /**
  * 缓存设备列表
@@ -45,3 +45,32 @@ export function getServerConfig(serverId: string): Promise<any> {
 export function saveServerConfig(info: any): Promise<any> {
     return request.httpPost('information/saveServerConfig', info);
 }
+
+/**
+ * 创建设备数据
+ * @param  info  
+ * @returns request Promise 
+ */
+export function createClient(info: createClientInfoType): Promise<any> {
+    return request.httpPost('information/createClient', info);
+}
+
+
+/**
+ * 缓存统计时间数据
+ * @param serverId 模拟器Id
+ * @returns request Promise 
+ */
+export function cacheTimeData(serverId: string): Promise<any> {
+    return request.httpGet('information/cacheTimeData', { serverId });
+}
+
+/**
+ * 获取统计时间数据
+ * @param serverId 模拟器Id
+ * @returns request Promise 
+ */
+export function getTimeData(serverId: string): Promise<any> {
+    return request.httpGet('information/getTimeData', { serverId });
+}
+

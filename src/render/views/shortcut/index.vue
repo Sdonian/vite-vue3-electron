@@ -1,6 +1,6 @@
 <template>
   <div class="drawer-container">
-    <h3 class="drawer-title">快捷操作</h3>
+    <div class="drawer-title">快捷操作</div>
     <div class="drawer-item">
       <el-row>
         <el-select
@@ -112,45 +112,24 @@
         </div>
       </el-row>
     </div>
-    <h3 class="drawer-title">模拟器消息</h3>
+    <div class="drawer-title">
+      <spna class="wsStatedot" :class="info.wsStateClass"></spna>
+      模拟器消息
+    </div>
     <div class="drawer-item">
       <el-card shadow="hover" :body-style="{ padding: '2px' }">
         <div class="server-msgs">
-          <el-scrollbar wrap-class="scrollbar-wrapper">
-            <div class="server-msgs-item">
-              <span class="time">2021-04-22 09:03:03</span>
-              <span class="oper">lipeng</span>
-              <span class="text"
-                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
-              >
-            </div>
-            <div class="server-msgs-item">
-              <span class="time">2021-04-22 09:03:03</span>
-              <span class="oper">lipeng</span>
-              <span class="text"
-                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
-              >
-            </div>
-            <div class="server-msgs-item">
-              <span class="time">2021-04-22 09:03:03</span>
-              <span class="oper">lipeng</span>
-              <span class="text"
-                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
-              >
-            </div>
-            <div class="server-msgs-item">
-              <span class="time">2021-04-22 09:03:03</span>
-              <span class="oper">lipeng</span>
-              <span class="text"
-                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
-              >
-            </div>
-            <div class="server-msgs-item">
-              <span class="time">2021-04-22 09:03:03</span>
-              <span class="oper">lipeng</span>
-              <span class="text"
-                >检查任务调度，更新时间大于十五分，开始清理以及启动工作任务</span
-              >
+          <el-scrollbar wrap-class="scrollbar-wrapper" ref="scrollbar">
+            <div
+              class="server-msgs-item"
+              v-for="msgInfo in info.msgList"
+              :key="msgInfo.createDateTime"
+            >
+              <span class="time">{{
+                moment(msgInfo.createDateTime).format("YYYY-MM-DD HH:mm:ss.SSS")
+              }}</span>
+              <span class="oper">{{ msgInfo.registerId }}</span>
+              <span class="text">{{ msgInfo.msg }}</span>
             </div>
           </el-scrollbar>
         </div>
@@ -165,18 +144,13 @@ import StartDevice from "./startDevice.vue";
 import PayCharge from "./payCharge.vue";
 import TimingOffline from "./timingOffline.vue";
 import { checkServer } from "@/utils";
-import { init } from "@/websocket";
+import { HubConnectionState } from "@microsoft/signalr";
+import {
+  registerGetServerMsg,
+  stateChangeFun,
+} from "@/websocket/sourceInfoHub";
+import moment from "moment";
 
-// import {
-//   checkServer,
-//   getServerOptions,
-//   restartSysServer,
-//   stopStart,
-//   stopCharge,
-//   cancelTimePay,
-//   cancelTimingOffline,
-//   clearDataLog,
-// } from "./index";
 import * as funs from "./index";
 import { ElMessage } from "element-plus";
 
@@ -190,22 +164,56 @@ export default defineComponent({
     const startDeviceRef = ref(null);
     const payChargeRef = ref(null);
     const timingOfflineRef = ref(null);
+    const scrollbar = ref(null);
     const info = reactive({
       serverOptions: [],
       serverValue: [],
+      msgList: [],
+      wsStateClass: "connecting",
     });
 
     //获取options数据
     funs.getServerOptions(info.serverOptions, info.serverValue);
-    onMounted(() => {
-      init();
+
+    //状态改变时切换提示
+    stateChangeFun.push((state: HubConnectionState) => {
+      switch (state) {
+        case HubConnectionState.Disconnected:
+        case HubConnectionState.Disconnecting:
+          info.wsStateClass = "disconnected";
+          break;
+        case HubConnectionState.Connected:
+          info.wsStateClass = "connected";
+          break;
+        case HubConnectionState.Reconnecting:
+        case HubConnectionState.Connecting:
+          info.wsStateClass = "connecting";
+          break;
+        default:
+          info.wsStateClass = "disconnected";
+          break;
+      }
     });
+    registerGetServerMsg((data) => {
+      if (info.msgList.length > 50) info.msgList = [];
+      info.msgList.push(data);
+      nextTick(() => {
+        //toTop(scrollbar.value.wrap);
+        scrollbar.value.wrap.scrollTop = scrollbar.value.resize.offsetHeight;
+        //console.log(scrollbar.value.wrap.scrollTop);
+        //console.log(scrollbar.value.resize.offsetHeight);
+        //moveScrollTop(scrollbar.value);
+      });
+    });
+    onMounted(() => {});
     return {
       info,
       ...funs,
+      moment,
       startDeviceRef,
       payChargeRef,
       timingOfflineRef,
+      scrollbar,
       openStartDevice: (interval) => {
         if (checkServer(info.serverValue)) {
           startDeviceRef.value.show(interval);
@@ -230,6 +238,19 @@ export default defineComponent({
     };
   },
 });
+
+// function moveScrollTop(scrollbar) {
+//   const maxTop = scrollbar.resize.offsetHeight;
+
+//   let interval =
+//     (scrollbar.resize.offsetHeight - scrollbar.wrap.scrollTop) / 1000;
+//   const plusTop = function () {
+//     scrollbar.wrap.scrollTop++;
+//   };
+//   setTimeout(() => {
+//     plusTop();
+//   }, interval);
+// }
 </script>
 <style>
 .select-popper {
@@ -256,6 +277,7 @@ export default defineComponent({
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     line-height: 22px;
+    font-weight: bold;
   }
 
   .drawer-item {
@@ -290,9 +312,9 @@ export default defineComponent({
   .server-msgs-item {
     margin: 5px;
     color: #000;
-    font-size: 14px;   
+    font-size: 14px;
     padding: 5px;
-    border-radius: 10px;
+    border-left: 3px solid rgb(85, 185, 216);
     span {
       display: inline-block;
     }

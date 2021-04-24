@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-const baseUrl = 'http://132.232.34.148/'
-//const baseUrl = "http://localhost:5000/"
+//const baseUrl = 'http://132.232.34.148/'
+const baseUrl = "http://localhost:5000/"
 import { getToken } from '@/utils/auth'
 import { useStore } from 'vuex'
 import QProgress from 'qier-progress'
@@ -14,7 +14,7 @@ class request {
   private constructor() {
     this._http = axios.create({
       baseURL: `${baseUrl}api/`,
-      timeout: 5000
+      timeout: 10000
     });
 
     this._http.interceptors.request.use(
@@ -27,6 +27,7 @@ class request {
       },
       error => {
         console.log(error) // for debug
+        qprogress.finish();
         return Promise.reject(error)
       }
     );
@@ -35,6 +36,7 @@ class request {
         qprogress.finish();
         return response;
       }, error => {
+        qprogress.finish();
         return Promise.reject(error)
       }
     );

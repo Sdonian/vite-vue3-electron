@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div style="height: 100%">
     <el-row :gutter="15">
       <el-col :span="24">
@@ -8,6 +8,7 @@
               <template #header>
                 <div class="card-header">
                   <span>
+                    <spna class="wsStatedot" :class="info.wsStateClass"></spna>
                     设备数据
                     <time class="time">
                       {{ info.allSourceInfo.updateTime }}
@@ -52,6 +53,7 @@
               <template #header>
                 <div class="card-header">
                   <span>
+                    <spna class="wsStatedot" :class="info.wsStateClass"></spna>
                     在线数据
                     <time class="time">{{
                       info.allSourceInfo.updateTime
@@ -98,6 +100,7 @@
               <template #header>
                 <div class="card-header">
                   <span>
+                    <spna class="wsStatedot" :class="info.wsStateClass"></spna>
                     充电数据
                     <time class="time">
                       {{ info.allSourceInfo.updateTime }}
@@ -128,7 +131,12 @@ import SimpleGauge from "@/components/Charts/Gauge/simple.vue";
 import SimpleLineBar from "@/components/Charts/LineBar/simple.vue";
 import { allSourceInfoType, homeInfoType } from "@/models";
 import { initChargeDataOption, calcAllSourceInfo } from "./index";
-import { registerGetSourceInfo } from "@/websocket/sourceInfoHub";
+import { HubConnectionState } from "@microsoft/signalr";
+import {
+  registerGetSourceInfo,
+  stateChangeFun,
+} from "@/websocket/sourceInfoHub";
+import { ElMessage, ElNotification } from "element-plus";
 
 export default defineComponent({
   components: {
@@ -151,18 +159,39 @@ export default defineComponent({
       chargeCountOption: {},
       chargeChannelCountOption: {},
       chargeDataOption: null,
+      wsStateClass: "connecting",
     } as homeInfoType);
 
     //初始化充电数据
     initChargeDataOption(info);
     //GetAllSourceInfo(info);
-    onMounted(() => {
-      //注册获取资源信息
-      registerGetSourceInfo((data) => {
-        info.allSourceInfo = data;
-        calcAllSourceInfo(info);
-      });
+
+    //状态改变时切换提示
+    stateChangeFun.push((state: HubConnectionState) => {
+      switch (state) {
+        case HubConnectionState.Disconnected:
+        case HubConnectionState.Disconnecting:
+          info.wsStateClass = "disconnected";
+          break;
+        case HubConnectionState.Connected:
+          info.wsStateClass = "connected";
+          break;
+        case HubConnectionState.Reconnecting:
+        case HubConnectionState.Connecting:
+          info.wsStateClass = "connecting";
+          break;
+        default:
+          info.wsStateClass = "disconnected";
+          break;
+      }
     });
+
+    //注册获取资源信息
+    registerGetSourceInfo((data) => {
+      info.allSourceInfo = data;
+      calcAllSourceInfo(info);
+    });
+    onMounted(() => {});
     return {
       info,
     };

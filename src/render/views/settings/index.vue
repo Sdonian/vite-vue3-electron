@@ -22,143 +22,168 @@
       <el-col :span="1"> </el-col>
     </el-row>
   </div>
+  <!-- v-loading="info.formLoading" -->
   <div class="editor-container">
-    <el-form
-      :model="info.formModel"
-      v-loading="info.formLoading"
-      label-width="140px"
-    >
+    <el-form :model="info.formModel" label-width="140px">
       <el-tabs v-model="info.activeName" @tab-click="handleClick">
         <el-tab-pane label="基础设置" name="base">
-          <el-form-item label="注册Key">
-            <el-input v-model="info.formModel.RegisterKey"></el-input>
-          </el-form-item>
-          <el-form-item label="注册ID">
-            <el-input
-              v-model="info.formModel.RegisterId"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="默认AesKey">
-            <el-input v-model="info.formModel.DefaultAesKey"></el-input>
-          </el-form-item>
-          <el-form-item label="默认设备号">
-            <el-input v-model="info.formModel.DefaultDeviceNum"></el-input>
-          </el-form-item>
-          <el-form-item label="设备类型">
-            <!-- <el-input v-model="info.formModel.deviceTypes"></el-input> -->
-            <el-row>
-              <el-col
-                v-for="dtype in info.deviceTypesCheckbox"
-                :span="8"
-                :key="dtype.value"
-              >
-                <!-- :checked="info.formModel.DeviceTypes[dtype] != null" -->
-                <el-checkbox v-model="dtype.checked">{{
-                  dtype.label
-                }}</el-checkbox>
-              </el-col>
-            </el-row>
-          </el-form-item>
-          <el-form-item label="Tcp服务器地址端口">
-            <el-row>
-              <el-col :span="20">
-                <el-input v-model="info.formModel.ServerAddress.Ip"></el-input>
-              </el-col>
-              <el-col :span="4">
+          <el-skeleton :loading="info.formLoading" animated>
+            <template #template>
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+            </template>
+            <template #default>
+              <el-form-item label="注册Key">
+                <el-input v-model="info.formModel.RegisterKey"></el-input>
+              </el-form-item>
+              <el-form-item label="注册ID">
                 <el-input
-                  v-model="info.formModel.ServerAddress.Port"
+                  v-model="info.formModel.RegisterId"
+                  :disabled="true"
                 ></el-input>
-              </el-col>
-            </el-row>
-          </el-form-item>
-          <el-form-item label="支付充电地址">
-            <el-input v-model="info.formModel.PayChargeUrl"></el-input>
-          </el-form-item>
-          <el-form-item label="用户Token地址">
-            <el-input v-model="info.formModel.GetTokenUrl"></el-input>
-          </el-form-item>
-          <el-form-item label="启用Elasticsearch">
-            <!-- <el-input v-model="info.formModel.elasticsearch"></el-input> -->
-            <el-switch
-              v-model="info.formModel.Elasticsearch"
-              active-color="#13ce66"
-            >
-            </el-switch>
-          </el-form-item>
+              </el-form-item>
+              <el-form-item label="默认AesKey">
+                <el-input v-model="info.formModel.DefaultAesKey"></el-input>
+              </el-form-item>
+              <el-form-item label="默认设备号">
+                <el-input v-model="info.formModel.DefaultDeviceNum"></el-input>
+              </el-form-item>
+              <el-form-item label="设备类型">
+                <!-- <el-input v-model="info.formModel.deviceTypes"></el-input> -->
+                <el-row>
+                  <el-col
+                    v-for="dtype in info.deviceTypesCheckbox"
+                    :span="8"
+                    :key="dtype.value"
+                  >
+                    <!-- :checked="info.formModel.DeviceTypes[dtype] != null" -->
+                    <el-checkbox v-model="dtype.checked">{{
+                      dtype.label
+                    }}</el-checkbox>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="Tcp服务器地址端口">
+                <el-row>
+                  <el-col :span="20">
+                    <el-input
+                      v-model="info.formModel.ServerAddress.Ip"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="info.formModel.ServerAddress.Port"
+                    ></el-input>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="支付充电地址">
+                <el-input v-model="info.formModel.PayChargeUrl"></el-input>
+              </el-form-item>
+              <el-form-item label="用户Token地址">
+                <el-input v-model="info.formModel.GetTokenUrl"></el-input>
+              </el-form-item>
+              <el-form-item label="启用Elasticsearch">
+                <!-- <el-input v-model="info.formModel.elasticsearch"></el-input> -->
+                <el-switch
+                  v-model="info.formModel.Elasticsearch"
+                  active-color="#13ce66"
+                >
+                </el-switch>
+              </el-form-item>
+            </template>
+          </el-skeleton>
         </el-tab-pane>
         <el-tab-pane label="Redis设置" name="redis">
-          <el-form-item label="Redis连接字符串">
-            <el-input
-              v-model="info.formModel.RedisSetting.ConnectionStr"
-            ></el-input>
-          </el-form-item>
+          <el-skeleton :loading="info.formLoading" animated>
+            <template #template>
+              <el-skeleton-item />
+            </template>
+            <template #default>
+              <el-form-item label="Redis连接字符串">
+                <el-input
+                  v-model="info.formModel.RedisSetting.ConnectionStr"
+                ></el-input>
+              </el-form-item>
+            </template>
+          </el-skeleton>
         </el-tab-pane>
         <el-tab-pane label="Rabbitmq设置" name="rabbitmq">
-          <el-form-item label="管理端Topic路由">
-            <el-input
-              v-model="info.formModel.RabbitMQSetting.ManagerTopicRoute"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="系统消息队列名">
-            <el-input
-              v-model="info.formModel.RabbitMQSetting.SystemMsgQueueName"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="连接用户名">
-            <el-input
-              v-model="
-                info.formModel.RabbitMQSetting.ConnectionConfiguration.UserName
-              "
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="连接密码">
-            <el-input
-              v-model="
-                info.formModel.RabbitMQSetting.ConnectionConfiguration.Password
-              "
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="VirtualHost">
-            <el-input
-              v-model="
-                info.formModel.RabbitMQSetting.ConnectionConfiguration
-                  .VirtualHost
-              "
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="连接地址端口">
-            <el-row>
-              <el-col :span="20">
+          <el-skeleton :loading="info.formLoading" animated>
+            <template #template>
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+              <el-skeleton-item />
+            </template>
+            <template #default>
+              <el-form-item label="管理端Topic路由">
+                <el-input
+                  v-model="info.formModel.RabbitMQSetting.ManagerTopicRoute"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="系统消息队列名">
+                <el-input
+                  v-model="info.formModel.RabbitMQSetting.SystemMsgQueueName"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="连接用户名">
                 <el-input
                   v-model="
                     info.formModel.RabbitMQSetting.ConnectionConfiguration
-                      .Hosts[0].Host
+                      .UserName
                   "
-                ></el-input
-              ></el-col>
-              <el-col :span="4">
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="连接密码">
                 <el-input
                   v-model="
                     info.formModel.RabbitMQSetting.ConnectionConfiguration
-                      .Hosts[0].Port
+                      .Password
                   "
-                ></el-input
-              ></el-col>
-            </el-row>
-          </el-form-item>
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="VirtualHost">
+                <el-input
+                  v-model="
+                    info.formModel.RabbitMQSetting.ConnectionConfiguration
+                      .VirtualHost
+                  "
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="连接地址端口">
+                <el-row>
+                  <el-col :span="20">
+                    <el-input
+                      v-model="
+                        info.formModel.RabbitMQSetting.ConnectionConfiguration
+                          .Hosts[0].Host
+                      "
+                    ></el-input
+                  ></el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="
+                        info.formModel.RabbitMQSetting.ConnectionConfiguration
+                          .Hosts[0].Port
+                      "
+                    ></el-input
+                  ></el-col>
+                </el-row>
+              </el-form-item>
+            </template>
+          </el-skeleton>
         </el-tab-pane>
       </el-tabs>
-      <!-- <el-row type="flex" justify="end">
-        <el-col :span="10">
-          <el-button size="medium" type="primary" @click="saveConfig(info)"
-            >保存当前</el-button
-          >
-          <el-button size="medium" type="danger" @click="saveConfigAll(info)"
-            >保存所有</el-button
-          >
-        </el-col>
-      </el-row> -->
       <div class="submit-btns">
         <el-button size="medium" type="primary" @click="saveConfig(info)"
           >保存当前</el-button
@@ -245,7 +270,7 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .editor-container {
   position: relative;
   height: 100%;
@@ -253,7 +278,12 @@ export default defineComponent({
   min-width: 500px;
   margin: 0px auto;
 }
-.submit-btns{
-  text-align:center;
+.submit-btns {
+  text-align: center;
+}
+
+.el-skeleton__item {
+  height: 30px;
+  margin-bottom: 18px;
 }
 </style>

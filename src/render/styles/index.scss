@@ -61,3 +61,39 @@ div:focus {
     margin-bottom: 10px;
   }
 }
+
+.wsStatedot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 12px;
+  margin-right: 5px;
+  background-color: rgb(56, 236, 56);
+  animation: wsStatedotChange 1.5s infinite;
+}
+.wsStatedot.disconnected {
+  background-color: rgb(238, 54, 54);
+}
+.wsStatedot.connected {
+  background-color: rgb(56, 236, 56);
+}
+.wsStatedot.connecting {
+  background-color: #e6a23c;
+}
+@keyframes wsStatedotChange {
+  // from {
+  //   background-color: rgba(56, 236, 56, 0);
+  // }
+  // to {
+  //   background-color: rgba(56, 236, 56, 1);
+  // }
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}

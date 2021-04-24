@@ -97,3 +97,5 @@ export function saveSettings(serverValue: string[]): void {
         disposeFixedRestResult(api.manager.saveSettings(serverValue), "保存同步设置");
     }
 }
+
+

@@ -11,6 +11,7 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 import './styles/index.scss'
 import './permission'
 import tableLoadMore from '@/directive/el-table/tableLoadMore'
+import './fonts/iconfont.css'
 
 //element-plus global options
 const elgOptions = { size: 'small', zIndex: 3000, locale };
