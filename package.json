@@ -16,6 +16,7 @@
     "@microsoft/signalr": "^5.0.5",
     "@types/js-cookie": "^2.2.6",
     "axios": "^0.21.1",
+    "clipboard": "^2.0.8",
     "echarts": "^5.0.2",
     "element-plus": "^1.0.2-beta.36",
     "js-cookie": "^2.2.1",

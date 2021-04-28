@@ -276,3 +276,17 @@ export function disposeFixedRestResult(requestPromise: Promise<any>, errorTitle?
     }
   )
 }
+
+/**
+ * url参数对象转拼接值
+ * @param obj 需要拼接的对象
+ * @returns 拼接后的字符串
+ */
+export function urlEncode(obj: Object): string {
+  let paramStr = '';
+  Object.keys(obj).forEach(key => {
+    paramStr += `${key}=${obj[key]}&`;
+  });
+  paramStr = paramStr.substring(0, paramStr.length - 1);
+  return window.encodeURI(paramStr);
+}

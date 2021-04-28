@@ -5,7 +5,7 @@ import { getToken } from '@/utils/auth'
 import { useStore } from 'vuex'
 import QProgress from 'qier-progress'
 const store = useStore();
-const qprogress = new QProgress({
+export const qprogress = new QProgress({
   height: 4
 });
 class request {
@@ -108,3 +108,29 @@ class request {
   }
 }
 export default request.getInstance();
+
+
+
+// let _http = axios.create({ timeout: 10000 });
+        // _http.get(`https://agent-dev.wanzhuang-app.com/api/device/getDeviceGroupList?page=1&limit=20&need_count=1`, {
+        //     headers: {
+        //         "authorization": `Bearer ${store.getters.agentToken}`
+        //     }
+        // }).then(data => {
+        //     debugger;
+        // }).catch(error => {
+        //     ElMessage.error(`  获取设备分组,${error}.`);
+        // });        
+        // fetch(`https://agent-dev.wanzhuang-app.com/api/device/getDeviceGroupList?page=1&limit=20&need_count=1`, {
+        //     method: 'GET',
+        //     mode: 'no-cors',
+        //     cache: 'default',
+        //     headers: {
+        //         "authorization": `Bearer ${store.getters.agentToken}`
+        //     }
+
+        // }).then(response => response.json()).then(data => {
+        //     debugger;
+        // }).catch(error => {
+        //     ElMessage.error(`  获取设备分组,${error}.`);
+        // });

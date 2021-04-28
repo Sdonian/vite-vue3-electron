@@ -74,3 +74,38 @@ export function getTimeData(serverId: string): Promise<any> {
     return request.httpGet('information/getTimeData', { serverId });
 }
 
+/**
+ * 获取设备信息文件列表
+ * @returns request Promise 
+ */
+export function getClientFlieList(): Promise<any> {
+    return request.httpGet('information/getClientFlieList');
+}
+
+/**
+ * 清理设备信息文件
+ * @param nameList 文件名list
+ * @returns 
+ */
+export function clearClientFlie(nameList: string[]): Promise<any> {
+    return request.httpPost('information/clearClientFlie', nameList);
+}
+
+
+/**
+ * 获取设备信息文件文本
+ * @param name 文件名
+ * @returns 
+ */
+export function getClientFileText(name: string): Promise<any> {
+    return request.httpGet('information/getClientFileText', { name });
+}
+/**
+ * 获取设备分组
+ * @param url 获取设备分组url
+ * @param token 令牌
+ * @returns 
+ */
+export function getDeviceGroups(url: string, token: string): Promise<any> {
+    return request.httpGet('information/getDeviceGroups', { url, token });
+}
