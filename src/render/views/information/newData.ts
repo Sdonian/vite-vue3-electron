@@ -6,6 +6,8 @@ import moment from "moment";
 import request from "@/utils/request"
 import { Store } from 'vuex'
 import { qprogress } from '@/utils/request'
+import stores from '@/store'
+import store from '@/store';
 
 
 
@@ -21,6 +23,9 @@ export interface newDataInfoType {
     agentGroups: any[];
     chooseVisible: Boolean;
     currentRow: any;
+    batchProg: number;
+    batchStatus: string;
+    autoRefresh: Boolean;
 }
 
 
@@ -73,14 +78,14 @@ export function getClientFileText(name: string, info: newDataInfoType) {
 export function loginAgent(info: newDataInfoType, store: Store<any>, refresh: Boolean = false) {
     //判断cookie中的token是否过期，过期则获取不到
     if (!store.getters.agentToken || refresh) {
-        let { agentPhone, agentPwd } = info.bindAgentModel;
+        let { agentPhone, agentPwd, loginAgentUrl } = info.bindAgentModel;
         if (agentPhone && agentPwd) {
             qprogress.start();
-            store.dispatch("setAgentPhone", agentPhone);
+            store.dispatch("setAgentLogin", { loginAgentUrl, agentPhone });
             //url拼接
             const paramStr = urlEncode({ password: agentPwd, company_id: 2, phone: agentPhone, type: 2 });
             //`https://agent-dev.wanzhuang-app.com/api/auth/agentLogin?password=${agentPwd}&company_id=2&phone=${agentPhone}&type=2`
-            fetch(`${info.bindAgentModel.loginAgentUrl}?${paramStr}`)
+            fetch(`${loginAgentUrl}?${paramStr}`)
                 .then(response => response.json())
                 .then(data => {
                     let { token, expire_at } = data.data;
@@ -112,6 +117,7 @@ export function getDeviceGroups(info: newDataInfoType, store: Store<any>, refres
             ElMessage.error("获取设备分组地址不能为空.");
             return;
         }
+        store.dispatch("setGetGroupsUrl", getGroupsUrl);
         disposeFixedRestResult(api.information.getDeviceGroups(getGroupsUrl, agentAuthorization),
             "获取设备分组", (restResult: restResultType) => {
                 let list = JSON.parse(restResult.data);
@@ -149,7 +155,7 @@ export function chooseDeviceNumber(info: newDataInfoType) {
         return;
     }
     disposeFixedRestResult(api.information.getClientFileText(info.currentRow.fileName), "选择设备编号", (restResult: restResultType) => {
-        info.bindAgentModel.batchDeviceNum = restResult.data;
+        info.bindAgentModel.batchDeviceNum = JSON.parse(restResult.data);
         info.chooseVisible = false;
     });
 }
@@ -159,11 +165,84 @@ export function chooseDeviceNumber(info: newDataInfoType) {
  * @param info 
  */
 export function batchAddDevice(info: newDataInfoType,) {
-    const { agentAuthorization, agentGroupId, batchDeviceNum } = info.bindAgentModel;
-    if (agentAuthorization && agentGroupId && batchDeviceNum) {
-        
+
+    const { agentAuthorization, agentGroupId, batchDeviceNum, batchAddDeviceUrl } = info.bindAgentModel;
+    if (agentAuthorization && agentGroupId && batchDeviceNum && batchAddDeviceUrl) {
+        store.dispatch("setBatchAddDeviceUrl", batchAddDeviceUrl);
+        disposeFixedRestResult(api.information.batchAddDevice({
+            url: batchAddDeviceUrl,
+            batchDeviceNum: batchDeviceNum.join(),
+            groupId: agentGroupId,
+            token: agentAuthorization
+        }), "批量添加设备", (restResult: restResultType) => {
+            //console.log(restResult);
+            info.bindAgentModel.batchId = JSON.parse(restResult.data).data.batch_id;
+            stores.dispatch("setBatchId", info.bindAgentModel.batchId);
+            //保存当前批处理的设备总数
+            localStorage.setItem(info.bindAgentModel.batchId, batchDeviceNum.length.toString());
+            ElMessage.success("操作成功，后台添加中!");
+        });
+        //初始化fromdata
+        //  const bodyData = new FormData();
+        //  bodyData.append("batch_device_num", batchDeviceNum.join());
+        //  bodyData.append("group_id", agentGroupId.toString()); 
+        //fetch提交数据
+        // fetch(batchAddDeviceUrl, {
+        //     headers: {
+        //         "authorization": `Bearer ${agentAuthorization}`,
+        //         "content-type": "multipart/form-data"
+        //     },
+        //     method: "POST",
+        //     body: bodyData
+        // }).then(response => response.json()).then(result => {
+        //     debugger;
+        // }).catch(error => {
+        //     console.log(error);
+        //     ElMessage.error(`批量添加设备,${error.message}`);
+        // });
     } else {
-        ElMessage.error("批量添加设备数据错误。");
+        ElMessage.error("批量添加设备参数错误。");
+    }
+}
+
+/**
+ * 查看批量添加进度
+ * @param info 
+ */
+export function batchAddDeviceCheck(info: newDataInfoType) {
+    const { agentAuthorization, agentGroupId, batchAddDeviceUrl, batchId } = info.bindAgentModel;
+    //查询当前批次保存的总数
+    const batchTotal = localStorage.getItem(batchId);
+    if (!batchTotal) {
+        ElMessage.error("无法查询到当前批次添加的总数.");
+        return;
+    }
+    if (agentAuthorization && agentGroupId && batchAddDeviceUrl && batchId) {
+        disposeFixedRestResult(api.information.batchAddDevice({
+            url: batchAddDeviceUrl,
+            batchDeviceNum: '18900000',
+            groupId: agentGroupId,
+            token: agentAuthorization,
+            batchId
+        }), "查看批量添加进度", (restResult: restResultType) => {
+            const batchTotal = localStorage.getItem(batchId);
+            if (batchTotal) {
+                const data = JSON.parse(restResult.data).data;
+                const finishTotal = parseInt(data.success_num) + parseInt(data.failed_num);
+                info.batchProg = parseFloat((finishTotal / parseInt(batchTotal) * 100).toFixed(2));
+                info.batchStatus = info.batchProg == 100 ? "success" : "";
+                if (info.batchProg == 100) {
+                    info.batchStatus = "success";
+                    ElMessage.success("批量添加已经完成.");
+                } else {
+                    info.batchStatus = "";
+                    if (info.autoRefresh) setTimeout(() => { batchAddDeviceCheck(info) }, 2000);
+                }
+
+            }
+        });
+    } else {
+        ElMessage.error("查看批量添加进度参数错误。");
     }
 }
 

@@ -152,7 +152,9 @@
                 ></el-input>
               </el-form-item>
               <el-form-item label="批量添加地址">
-                <el-input v-model="info.bindAgentModel.batchAddDevice"></el-input>
+                <el-input
+                  v-model="info.bindAgentModel.batchAddDeviceUrl"
+                ></el-input>
               </el-form-item>
               <el-form-item label="设备编号">
                 <el-input v-model="info.bindAgentModel.batchDeviceNum">
@@ -174,22 +176,36 @@
               <el-form-item label="批处理Id">
                 <el-input v-model="info.bindAgentModel.batchId"></el-input>
               </el-form-item>
+              <el-form-item label="批处理进度">
+                <el-progress
+                  :stroke-width="32"
+                  :percentage="info.batchProg"
+                  :text-inside="true"
+                  :indeterminate="true"
+                  :status="info.batchStatus"
+                >
+                  <template #default="{ percentage }">
+                    <span class="percentage-label" style="color: #606266"
+                      >当前进度：</span
+                    >
+                    <span class="percentage-value" style="color: #606266">
+                      {{ percentage }}%
+                    </span>
+                  </template>
+                </el-progress>
+              </el-form-item>
             </el-form>
           </el-col>
         </el-row>
 
         <div class="submit-btns">
-          <el-button
-            size="medium"
-            type="primary"
-            @click="getClientFlieList(info)"
-          >
+          <el-button size="medium" type="primary" @click="batchAddDevice(info)">
             开始绑定
           </el-button>
           <el-button
             size="medium"
             type="primary"
-            @click="clearClientFlie(info)"
+            @click="batchAddDeviceCheck(info, true)"
           >
             绑定进度查询
           </el-button>
@@ -269,7 +285,7 @@
 </template>
 <script lang="ts">
 import { ElMessage } from "element-plus";
-import { defineComponent, reactive, ref, watch, computed } from "vue";
+import { defineComponent, reactive, ref, onUnmounted, computed } from "vue";
 import {
   createClient,
   getClientFlieList,
@@ -279,10 +295,12 @@ import {
   loginAgent,
   refreshGroups,
   chooseDeviceNumber,
+  batchAddDevice,
+  batchAddDeviceCheck,
 } from "./newData";
 import { createClientInfoType, bindAgentInfoType } from "@/models";
 import clip from "@/utils/clipboard";
-import { useStore, mapGetters } from "vuex";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
@@ -290,11 +308,14 @@ export default defineComponent({
 
     let info: newDataInfoType = reactive<newDataInfoType>({
       activeName: "newDeviceData",
+      batchProg: 0,
+      batchStatus: "",
       currentRow: null,
       readTitle: "",
       readVisible: false,
       chooseVisible: false,
       readText: "",
+      autoRefresh: true,
       createClientModel: {
         start: 18900000,
         total: 3000,
@@ -308,12 +329,9 @@ export default defineComponent({
         agentGroupId: store.getters.agentGroupId,
         agentAuthorization: store.getters.agentToken,
         batchDeviceNum: [],
-        getGroupsUrl:
-          "https://agent-dev.wanzhuang-app.com/api/device/getDeviceGroupList?page=1&limit=20&need_count=1",
-        loginAgentUrl:
-          "https://agent-dev.wanzhuang-app.com/api/auth/agentLogin",
-        batchAddDevice:
-          "https://webapi.wanzhuang-app.com/device/batchAddDeviceOfOperator",
+        getGroupsUrl: store.getters.getGroupsUrl,
+        loginAgentUrl: store.getters.loginAgentUrl,
+        batchAddDeviceUrl: store.getters.batchAddDeviceUrl,
         batchId: store.getters.batchId,
       } as bindAgentInfoType,
       agentGroups: store.getters.agentGroups,
@@ -325,12 +343,13 @@ export default defineComponent({
 
     const deviceNumFileList = computed(() => {
       return info.clientFileList.filter((m) => {
-        console.log(m.fileName.indexOf("devNums") > -1);
         return m.fileName.indexOf("devNums") > -1;
       });
     });
 
-    store;
+    onUnmounted(() => {
+      info.autoRefresh = false;
+    });
     return {
       info,
       createClient,
@@ -339,6 +358,8 @@ export default defineComponent({
       getClientFileText,
       deviceNumFileList,
       chooseDeviceNumber,
+      batchAddDevice,
+      batchAddDeviceCheck,
       clip,
       agentGroupIdChange(val) {
         store.dispatch("setAgentGroupId", info.bindAgentModel.agentGroupId);
@@ -384,3 +405,11 @@ export default defineComponent({
   }
 }
 </style>
+
+
+//  getGroupsUrl:
+//           "https://agent-dev.wanzhuang-app.com/api/device/getDeviceGroupList?page=1&limit=20&need_count=1",
+//         loginAgentUrl:
+//           "https://agent-dev.wanzhuang-app.com/api/auth/agentLogin",
+//         batchAddDeviceUrl:
+//           "https://webapi.wanzhuang-app.com/device/batchAddDeviceOfOperator",

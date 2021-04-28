@@ -2,25 +2,41 @@ import Cookies from 'js-cookie'
 import { ActionContext, Commit } from 'vuex/types/index.d';
 
 interface stateType {
-    agentPhone: number;
+    agentPhone: string;
     agentToken: string;
     agentGroups: string[];
     agentGroupId: number;
     batchId: string;
+    loginAgentUrl: string;
+    getGroupsUrl: string;
+    batchAddDeviceUrl: string;
 }
 
 const state: stateType = {
-    agentPhone: parseInt(localStorage.getItem("agentPhone") ?? "18626226142"),
-    agentToken: Cookies.get("agentToken") ?? "",
-    agentGroups: JSON.parse(localStorage.getItem("agentGroups") ?? null),
-    agentGroupId: parseInt(localStorage.getItem("agentGroupId") ?? null),
+    agentPhone: localStorage.getItem("agentPhone"),
+    agentToken: Cookies.get("agentToken") ?? null,
+    agentGroups: JSON.parse(localStorage.getItem("agentGroups")),
+    agentGroupId: localStorage.getItem("agentGroupId") ? parseInt(localStorage.getItem("agentGroupId")) : null,
     batchId: localStorage.getItem("batchId"),
+    loginAgentUrl: localStorage.getItem("loginAgentUrl"),
+    getGroupsUrl: localStorage.getItem("getGroupsUrl"),
+    batchAddDeviceUrl: localStorage.getItem("batchAddDeviceUrl")
 }
 
 const mutations = {
-    SET_AGENTPHONE: (state: stateType, agentPhone: number) => {
+    SET_GETGROUPSURL: (state: stateType, getGroupsUrl: string) => {
+        state.getGroupsUrl = getGroupsUrl;
+        localStorage.setItem("getGroupsUrl", state.getGroupsUrl);
+    },
+    SET_BATCHADDDEVICEURL: (state: stateType, batchAddDeviceUrl: string) => {
+        state.batchAddDeviceUrl = batchAddDeviceUrl;
+        localStorage.setItem("batchAddDeviceUrl", state.batchAddDeviceUrl);
+    },
+    SET_AGENTLOGIN: (state: stateType, { loginAgentUrl, agentPhone }) => {
         state.agentPhone = agentPhone;
-        localStorage.setItem("agentPhone", state.agentPhone.toString());
+        state.loginAgentUrl = loginAgentUrl;
+        localStorage.setItem("agentPhone", state.agentPhone);
+        localStorage.setItem("loginAgentUrl", state.loginAgentUrl);
     },
     SET_AGENTTOKEN: (state: stateType, { agentToken, expires }: { agentToken: string, expires: number | Date }) => {
         state.agentToken = agentToken;
@@ -46,8 +62,8 @@ interface acType {
 }
 
 const actions = {
-    setAgentPhone({ commit }: acType, agentPhone: number) {
-        commit("SET_AGENTPHONE", agentPhone);
+    setAgentLogin({ commit }: acType, data: { loginAgentUrl: string, agentPhone: string }) {
+        commit("SET_AGENTLOGIN", data);
     },
     setAgentToken({ commit }: acType, data: { agentToken: string, expires: number | Date }) {
         commit("SET_AGENTTOKEN", data);
@@ -60,7 +76,14 @@ const actions = {
     },
     setBatchId({ commit }: acType, batchId: string) {
         commit("SET_BATCHID", batchId);
+    },
+    setBatchAddDeviceUrl({ commit }: acType, batchAddDeviceUrl: string) {
+        commit("SET_BATCHADDDEVICEURL", batchAddDeviceUrl);
+    },
+    setGetGroupsUrl({ commit }: acType, getGroupsUrl: string) {
+        commit("SET_GETGROUPSURL", getGroupsUrl);
     }
+
 }
 
 export default {

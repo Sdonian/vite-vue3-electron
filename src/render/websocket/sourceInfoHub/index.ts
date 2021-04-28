@@ -92,10 +92,11 @@ export function registerGetSourceInfo(receiveFun: Function) {
     if (!receiveFun) {
         ElMessage.error("请传入接收消息回调");
         return;
-    }
-    if (wsConnection.state == HubConnectionState.Connected) {
-        wsConnection.send("registerGetSourceInfo", "receiveSourceInfo", 2).then(() => {
+    }    
+    if (wsConnection.state == HubConnectionState.Connected) {        
+        wsConnection.send("registerGetSourceInfo", "receiveSourceInfo", 2).then(() => {            
             ElMessage.success(`注册获取资源信息成功！`);
+            activeStateChangeFun();
             wsConnection.off("receiveSourceInfo");//移除之前的
             //处理服务器推送过来的数据
             wsConnection.on("receiveSourceInfo", (res) => {
@@ -106,6 +107,8 @@ export function registerGetSourceInfo(receiveFun: Function) {
                     receiveFun(data);
                 }
             })
+        }).catch(error=>{
+            debugger;
         });
     } else {
         //ElMessage.error("当前webscoket未连接，请刷新页面");
@@ -127,6 +130,7 @@ export function registerGetServerMsg(receiveFun: Function) {
     if (wsConnection.state == HubConnectionState.Connected) {
         wsConnection.send("registerGetServerMsg", "receiveServerMsg").then(() => {
             ElMessage.success(`注册获取模拟器信息成功！`);
+            activeStateChangeFun();
             wsConnection.off("receiveServerMsg");//移除之前的
             //处理服务器推送过来的数据
             wsConnection.on("receiveServerMsg", (res: restResultType) => {

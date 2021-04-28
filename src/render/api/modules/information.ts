@@ -100,6 +100,8 @@ export function clearClientFlie(nameList: string[]): Promise<any> {
 export function getClientFileText(name: string): Promise<any> {
     return request.httpGet('information/getClientFileText', { name });
 }
+
+
 /**
  * 获取设备分组
  * @param url 获取设备分组url
@@ -108,4 +110,13 @@ export function getClientFileText(name: string): Promise<any> {
  */
 export function getDeviceGroups(url: string, token: string): Promise<any> {
     return request.httpGet('information/getDeviceGroups', { url, token });
+}
+
+/**
+ * 批量添加设备
+ * @param info 添加的信息
+ * @returns 
+ */
+export function batchAddDevice(info): Promise<any> {
+    return request.httpPost('information/batchAddDevice', info);
 }

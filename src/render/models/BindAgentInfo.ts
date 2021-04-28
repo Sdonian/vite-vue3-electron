@@ -7,5 +7,5 @@ export default interface BindAgentInfo {
     batchId: string;
     getGroupsUrl: string;
     loginAgentUrl: string;
-    batchAddDevice: string; 
+    batchAddDeviceUrl: string; 
 }

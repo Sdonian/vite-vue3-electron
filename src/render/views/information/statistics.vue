@@ -71,6 +71,8 @@ export default defineComponent({
       if (info.serverOptions.length > 0) {
         info.serverValue = info.serverOptions[0].value;
         cacheTimeData(info);
+      } else {
+        info.dataLoading = false;
       }
     });
     onMounted(() => {});
