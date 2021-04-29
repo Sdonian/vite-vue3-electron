@@ -58,6 +58,28 @@ const routers: RouteRecordRaw[] = [{
         component: () => import('@/views/settings/configSetting.vue'),
         meta: { title: '配置文件', icon: 'icon-config' }
     }]
+}, {
+    path: '/helper',
+    component: Layout,
+    name: 'Helper',
+    redirect: '/helper/linux',
+    meta: { title: '帮助文档', icon: 'icon-help' },
+    children: [{
+        path: 'linux',
+        name: 'Linux',
+        component: () => import('@/views/helper/linux.vue'),
+        meta: { title: '服务器', icon: 'icon-linux' }
+    }, {
+        path: 'desktop',
+        name: 'Desktop',
+        component: () => import('@/views/helper/desktop.vue'),
+        meta: { title: '桌面端', icon: 'icon-pc' }
+    }, {
+        path: 'web',
+        name: 'Web',
+        component: () => import('@/views/helper/web.vue'),
+        meta: { title: 'web端', icon: 'icon-web' }
+    },]
 }];
 const router = createRouter({
     history: createWebHistory(),
