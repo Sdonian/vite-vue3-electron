@@ -26,6 +26,7 @@ export interface newDataInfoType {
     batchProg: number;
     batchStatus: string;
     autoRefresh: Boolean;
+    selectRows: clientFlieInfoType[];
 }
 
 
@@ -56,10 +57,41 @@ export function getClientFlieList(info: newDataInfoType) {
  * 清理设备信息文件
  */
 export function clearClientFlie(info: newDataInfoType) {
-    disposeFixedRestResult(api.information.clearClientFlie(info.clientFileList.map(f => f.fileName)), "清理设备信息文件", (restResult: restResultType) => {
-        getClientFlieList(info);
+    if (info.selectRows.length <= 0) {
+        ElMessage.error("请先选择文件");
+        return;
+    }
+    this.$confirm('此操作将永久删除文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+    }).then(() => {
+        disposeFixedRestResult(api.information.clearClientFlie(info.selectRows.map(m => m.fileName)), "清理设备信息文件", (restResult: restResultType) => {
+            getClientFlieList(info);
+        });
+    }).catch(() => {
+    });
+
+}
+
+
+/**
+ * 打包下载
+ * @param info 
+ */
+export function zipDownload(info: newDataInfoType) {
+    if (info.selectRows.length <= 0) {
+        ElMessage.error("请先选择文件");
+        return;
+    }
+    //const fileNames = info.selectRows.map(m => m.fileName);
+    //, (restResult: restResultType) => {}
+    disposeFixedRestResult(api.information.zipDownload(info.selectRows.map(m => m.fileName)), "打包下载", (restResult: restResultType) => {
+        let baseUrl = request.getConfig().baseUrl;
+        window.open(`${baseUrl}api/${restResult.data}`);
     });
 }
+
 
 /**
  * 获取设备信息文件文本

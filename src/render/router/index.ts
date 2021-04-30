@@ -68,7 +68,7 @@ const routers: RouteRecordRaw[] = [{
         path: 'linux',
         name: 'Linux',
         component: () => import('@/views/helper/linux.vue'),
-        meta: { title: '服务器', icon: 'icon-linux' }
+        meta: { title: '服务端', icon: 'icon-linux' }
     }, {
         path: 'desktop',
         name: 'Desktop',

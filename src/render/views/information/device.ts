@@ -31,7 +31,11 @@ export function getDeviceList(info: deviceInfoType) {
         disposeFixedRestResult(api.information.getDeviceList(info.deviceListQuery), "获取设备列表错误", (restResult: restResultType) => {
             let pageList = restResult.data as pageListInfoType<clientViewInfoType>;
             info.dataTotal = pageList.total;
-            info.deviceList = pageList.list;
+            info.deviceList = pageList.list.map(m => {
+                let { VersionMain, VersionSub1, VersionSub2, VersionRc } = JSON.parse(m.softWareVer);
+                m.softWareVer = `${VersionMain}.${VersionSub1}.${VersionSub2}.${VersionRc}`;
+                return m;
+            });
             // pageList.list.forEach((data: clientViewInfoType) => {
             //     info.deviceList.push(data);
             // });

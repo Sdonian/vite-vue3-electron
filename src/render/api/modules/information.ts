@@ -120,3 +120,12 @@ export function getDeviceGroups(url: string, token: string): Promise<any> {
 export function batchAddDevice(info): Promise<any> {
     return request.httpPost('information/batchAddDevice', info);
 }
+
+/**
+ * 打包下载
+ * @param fileNames  文件名集合
+ * @returns 
+ */
+export function zipDownload(fileNames: string[]): Promise<any> {
+    return request.httpPost('information/zipDownload', fileNames);
+}

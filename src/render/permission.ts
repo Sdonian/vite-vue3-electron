@@ -7,7 +7,10 @@ const qprogress = new QProgress({
 });
 
 router.beforeEach((to, from, next) => {
-    qprogress.start();
+    //路由采用webhistory模式,hash改变则不进行progress显示
+    if (to.path != from.path) {
+        qprogress.start();
+    }
     next();
 });
 

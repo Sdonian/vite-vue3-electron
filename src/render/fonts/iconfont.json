@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6690173",
+      "name": "PC",
+      "font_class": "pc",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
       "icon_id": "1238395",
       "name": "help",
       "font_class": "help",
@@ -25,13 +32,6 @@
       "font_class": "web",
       "unicode": "e610",
       "unicode_decimal": 58896
-    },
-    {
-      "icon_id": "8332374",
-      "name": "PC",
-      "font_class": "pc",
-      "unicode": "e69c",
-      "unicode_decimal": 59036
     },
     {
       "icon_id": "8881377",

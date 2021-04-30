@@ -52,7 +52,8 @@
       </el-tab-pane>
 
       <el-tab-pane label="已生成文件" name="clientFileList">
-        <el-table :data="info.clientFileList">
+        <el-table :data="info.clientFileList" @selection-change="selectChange">
+          <el-table-column type="selection" width="45"> </el-table-column>
           <el-table-column
             label="文件名称"
             sortable
@@ -69,9 +70,15 @@
             label="创建时间"
             prop="createTime"
             align="center"
+            width="160"
             sortable
           ></el-table-column>
-          <el-table-column label="操作" class="asdfasdf" align="center">
+          <el-table-column
+            label="操作"
+            width="150"
+            class="asdfasdf"
+            align="center"
+          >
             <template #default="{ row }">
               <div class="oper-cell-container">
                 <el-link type="primary" :href="row.downloadUrl" class="oper-el"
@@ -97,8 +104,11 @@
           >
             刷新
           </el-button>
+          <el-button size="medium" type="primary" @click="zipDownload(info)">
+            打包下载
+          </el-button>
           <el-button size="medium" type="danger" @click="clearClientFlie(info)">
-            清理所有文件
+            清理文件
           </el-button>
         </div>
       </el-tab-pane>
@@ -297,6 +307,7 @@ import {
   chooseDeviceNumber,
   batchAddDevice,
   batchAddDeviceCheck,
+  zipDownload,
 } from "./newData";
 import { createClientInfoType, bindAgentInfoType } from "@/models";
 import clip from "@/utils/clipboard";
@@ -308,6 +319,7 @@ export default defineComponent({
 
     let info: newDataInfoType = reactive<newDataInfoType>({
       activeName: "newDeviceData",
+      selectRows: [],
       batchProg: 0,
       batchStatus: "",
       currentRow: null,
@@ -361,6 +373,7 @@ export default defineComponent({
       batchAddDevice,
       batchAddDeviceCheck,
       clip,
+      zipDownload,
       agentGroupIdChange(val) {
         store.dispatch("setAgentGroupId", info.bindAgentModel.agentGroupId);
       },
@@ -369,6 +382,9 @@ export default defineComponent({
       },
       handleCurrentChange(val) {
         info.currentRow = val;
+      },
+      selectChange(selection) {
+        info.selectRows = selection;
       },
     };
   },

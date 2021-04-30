@@ -39,4 +39,5 @@ export default interface ClientViewInfo {
     workModeSetting: string;
     heartBeatTime: number;
     finishOrderCount: number
+    softWareVer: string;
 }

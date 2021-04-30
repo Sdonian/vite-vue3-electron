@@ -7,7 +7,7 @@
         :style="{ top: buttonTop + 'px', 'background-color': '#4ab7bd' }"
         @click="show = !show"
       >
-        <i :class="show ? 'el-icon-close' : 'el-icon-set-up'" />
+        <i :class="show ? 'el-icon-close' : 'iconfont icon-shortcut'" />
       </div>
       <div class="rightPanel-items">
         <slot />

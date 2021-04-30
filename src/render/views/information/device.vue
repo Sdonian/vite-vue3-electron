@@ -31,6 +31,14 @@
     >
       搜索
     </el-button>
+    <el-button
+      class="filter-item"
+      @click="handleRefresh(info)"
+      type="primary"
+      icon="el-icon-refresh"
+    >
+      刷新
+    </el-button>
   </div>
   <!-- v-tableLoadMore="load" -->
   <el-table
@@ -115,6 +123,8 @@
     >
     </el-table-column>
     <el-table-column label="充电通道" width="150" sortable prop="chargeChannel">
+    </el-table-column>
+    <el-table-column label="软件版本号" width="200" sortable prop="softWareVer">
     </el-table-column>
     <el-table-column
       label="首次连接时间"
@@ -242,6 +252,9 @@ export default defineComponent({
       serverChange(val) {
         info.deviceListQuery.pageIndex = 1;
         info.deviceListQuery.serverId = val;
+        cacheDeviceList(info);
+      },
+      handleRefresh() {
         cacheDeviceList(info);
       },
     };

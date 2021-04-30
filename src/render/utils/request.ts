@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-const baseUrl = 'http://132.232.34.148/'
-//const baseUrl = "http://localhost:5000/"
+//const baseUrl = 'http://132.232.34.148/'
+const baseUrl = "http://localhost:5000/"
 import { getToken } from '@/utils/auth'
 import { useStore } from 'vuex'
 import QProgress from 'qier-progress'
