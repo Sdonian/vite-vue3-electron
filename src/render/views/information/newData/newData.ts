@@ -14,20 +14,45 @@ import store from '@/store';
 
 export interface newDataInfoType {
     activeName: string;
+}
+
+export interface clientFileListInfoType {
     readTitle: string;
     readVisible: Boolean;
     readText: string;
-    createClientModel: createClientInfoType;
     clientFileList: clientFlieInfoType[];
-    bindAgentModel: bindAgentInfoType;
-    agentGroups: any[];
+    selectRows: clientFlieInfoType[];
+}
+
+export interface bindAgentType {
     chooseVisible: Boolean;
-    currentRow: any;
     batchProg: number;
     batchStatus: string;
     autoRefresh: Boolean;
-    selectRows: clientFlieInfoType[];
+    agentGroups: any[];
+    currentRow: any;
+    progressLabel: string;
+    bindAgentModel: bindAgentInfoType;
+    clientFileList: clientFlieInfoType[];
 }
+
+// export interface newDataInfoType {
+//     activeName: string;
+//     readTitle: string;
+//     readVisible: Boolean;
+//     readText: string;
+//     createClientModel: createClientInfoType;
+//     clientFileList: clientFlieInfoType[];
+//     bindAgentModel: bindAgentInfoType;
+//     agentGroups: any[];
+//     chooseVisible: Boolean;
+//     currentRow: any;
+//     batchProg: number;
+//     batchStatus: string;
+//     autoRefresh: Boolean;
+//     selectRows: clientFlieInfoType[];
+//     createConfigModel: any;
+// }
 
 
 /**
@@ -41,7 +66,7 @@ export function createClient(info: createClientInfoType) {
 /**
  * 获取设备信息文件列表
  */
-export function getClientFlieList(info: newDataInfoType) {
+export function getClientFlieList(info: clientFileListInfoType) {
     disposeFixedRestResult(api.information.getClientFlieList(), "获取设备信息文件列表", (restResult: restResultType) => {
         let baseUrl = request.getConfig().baseUrl;
         let list = restResult.data.map(d => {
@@ -53,10 +78,12 @@ export function getClientFlieList(info: newDataInfoType) {
         info.clientFileList = list;
     });
 }
+
+export function getClientFiles() { return api.information.getClientFlieList(); }
 /**
  * 清理设备信息文件
  */
-export function clearClientFlie(info: newDataInfoType) {
+export function clearClientFlie(info: clientFileListInfoType) {
     if (info.selectRows.length <= 0) {
         ElMessage.error("请先选择文件");
         return;
@@ -79,7 +106,7 @@ export function clearClientFlie(info: newDataInfoType) {
  * 打包下载
  * @param info 
  */
-export function zipDownload(info: newDataInfoType) {
+export function zipDownload(info: clientFileListInfoType) {
     if (info.selectRows.length <= 0) {
         ElMessage.error("请先选择文件");
         return;
@@ -96,7 +123,7 @@ export function zipDownload(info: newDataInfoType) {
 /**
  * 获取设备信息文件文本
  */
-export function getClientFileText(name: string, info: newDataInfoType) {
+export function getClientFileText(name: string, info: clientFileListInfoType) {
     disposeFixedRestResult(api.information.getClientFileText(name), "获取设备信息文件文本", (restResult: restResultType) => {
         info.readTitle = name;
         info.readText = restResult.data;
@@ -107,7 +134,7 @@ export function getClientFileText(name: string, info: newDataInfoType) {
 /**
  * 登录运营商获取token
  */
-export function loginAgent(info: newDataInfoType, store: Store<any>, refresh: Boolean = false) {
+export function loginAgent(info: bindAgentType, store: Store<any>, refresh: Boolean = false) {
     //判断cookie中的token是否过期，过期则获取不到
     if (!store.getters.agentToken || refresh) {
         let { agentPhone, agentPwd, loginAgentUrl } = info.bindAgentModel;
@@ -142,7 +169,7 @@ export function loginAgent(info: newDataInfoType, store: Store<any>, refresh: Bo
  * 获取设备分组
  * @param info 
  */
-export function getDeviceGroups(info: newDataInfoType, store: Store<any>, refresh: Boolean = false) {
+export function getDeviceGroups(info: bindAgentType, store: Store<any>, refresh: Boolean = false) {
     let { agentAuthorization, getGroupsUrl } = info.bindAgentModel;
     if (agentAuthorization && (!info.agentGroups || refresh)) {
         if (!getGroupsUrl) {
@@ -171,7 +198,7 @@ export function getDeviceGroups(info: newDataInfoType, store: Store<any>, refres
  * @param info 
  * @param store 
  */
-export function refreshGroups(info: newDataInfoType, store: Store<any>) {
+export function refreshGroups(info: bindAgentType, store: Store<any>) {
     loginAgent(info, store, true);
 }
 
@@ -180,7 +207,7 @@ export function refreshGroups(info: newDataInfoType, store: Store<any>) {
  * @param info 
  */
 
-export function chooseDeviceNumber(info: newDataInfoType) {
+export function chooseDeviceNumber(info: bindAgentType) {
     //let {agentGroupId,agentAuthorization,} =   info.bindAgentModel;
     if (!info.currentRow) {
         ElMessage.error("请先选择设备编号文件.");
@@ -193,10 +220,28 @@ export function chooseDeviceNumber(info: newDataInfoType) {
 }
 
 /**
+ * 选择ImeiChipid
+ * @param info 
+ */
+
+ export function chooseImeiChipid(info:any) {
+    //let {agentGroupId,agentAuthorization,} =   info.bindAgentModel;
+    if (!info.currentRow) {
+        ElMessage.error("请先选择imeiChipid文件.");
+        return;
+    }
+    disposeFixedRestResult(api.information.getClientFileText(info.currentRow.fileName), "选择imeiChipid", (restResult: restResultType) => {
+        info.createConfigModel.imeiChipIds = restResult.data;
+        info.chooseVisible = false;
+    });
+}
+
+
+/**
  * 批量添加设备
  * @param info 
  */
-export function batchAddDevice(info: newDataInfoType,) {
+export function batchAddDevice(info: bindAgentType,) {
 
     const { agentAuthorization, agentGroupId, batchDeviceNum, batchAddDeviceUrl } = info.bindAgentModel;
     if (agentAuthorization && agentGroupId && batchDeviceNum && batchAddDeviceUrl) {
@@ -241,7 +286,7 @@ export function batchAddDevice(info: newDataInfoType,) {
  * 查看批量添加进度
  * @param info 
  */
-export function batchAddDeviceCheck(info: newDataInfoType) {
+export function batchAddDeviceCheck(info: bindAgentType) {
     const { agentAuthorization, agentGroupId, batchAddDeviceUrl, batchId } = info.bindAgentModel;
     //查询当前批次保存的总数
     const batchTotal = localStorage.getItem(batchId);
@@ -263,6 +308,7 @@ export function batchAddDeviceCheck(info: newDataInfoType) {
                 const finishTotal = parseInt(data.success_num) + parseInt(data.failed_num);
                 info.batchProg = parseFloat((finishTotal / parseInt(batchTotal) * 100).toFixed(2));
                 info.batchStatus = info.batchProg == 100 ? "success" : "";
+                info.progressLabel = `成功:${data.success_num}/失败:${data.failed_num}  进度`;
                 if (info.batchProg == 100) {
                     info.batchStatus = "success";
                     ElMessage.success("批量添加已经完成.");
@@ -277,4 +323,3 @@ export function batchAddDeviceCheck(info: newDataInfoType) {
         ElMessage.error("查看批量添加进度参数错误。");
     }
 }
-

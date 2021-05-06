@@ -30,18 +30,29 @@
       <div class="code menu-list">
         <span class="menuName">首页：</span>聚合数据展示<br />
         <span class="menuName">数据信息：</span><br />
-        <span class="menuName sub">设备信息：</span
-        >查看指定模拟器已启动的设备数据<br />
-        <span class="menuName sub">统计信息：</span>查看指定模拟器统计数据<br />
-        <span class="menuName sub">数据管理：</span
-        >生成模拟器基础数据，和绑定到供应商平台的分组下<br />
+        <span class="menuName sub">设备信息：</span>
+        查看指定模拟器已启动的设备数据<br />
+        <span class="menuName sub">统计信息：</span>
+        查看指定模拟器统计数据<br />
+        <span class="menuName sub">数据管理：</span>
+        生成模拟器基础数据，和绑定到供应商平台的分组下<br />
+        <span class="menuName">设置：</span><br />
+        <span class="menuName sub">模拟器设置：</span>
+        设置指定模拟器的配置文件，重启模拟器后生效<br />
+        <span class="menuName">帮助文档：</span><br />
+        <span class="menuName sub">服务端：</span>
+        运行在linux下的模拟器主程序，相关文档<br />
+        <span class="menuName sub">桌面端：</span>
+        运行在windos平台下的模拟器主程序<br />
+        <span class="menuName sub">&nbsp;Web端：</span>
+        综合管理平台，查看模拟器资源、状态，并管理控制，基础数据生成等<br />
       </div>
     </section>
-    <section id="配置文件">
+    <!-- <section id="配置文件">
       <h3>
         <a href="#配置文件"> 配置文件 </a>
       </h3>
-    </section>
+    </section> -->
   </div>
   <helperRightNav v-model:rightNavList="info.rightNavList"></helperRightNav>
 </template>
@@ -49,7 +60,7 @@
 import { defineComponent, reactive } from "vue";
 import { useRoute } from "vue-router";
 import helperRightNav from "@/components/Helper/helperRightNav.vue";
-
+import "@/styles/helper.scss";
 export default defineComponent({
   components: {
     helperRightNav,
@@ -65,10 +76,6 @@ export default defineComponent({
         {
           href: `${route.path}#功能讲解`,
           text: "功能讲解",
-        },
-        {
-          href: `${route.path}#配置文件`,
-          text: "配置文件",
         },
       ],
     });

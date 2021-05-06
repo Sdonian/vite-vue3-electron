@@ -38,7 +38,7 @@ const routers: RouteRecordRaw[] = [{
     }, {
         path: 'newData',
         name: 'NewData',
-        component: () => import('@/views/information/newData.vue'),
+        component: () => import('@/views/information/newData/index.vue'),
         meta: { title: '数据管理', icon: 'icon-newData' }
     }]
 }, {

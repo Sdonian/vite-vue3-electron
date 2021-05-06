@@ -135,7 +135,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 img.desktop {
   height: 400px;
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   margin-bottom: 10px;
 }
 .fun-list {
