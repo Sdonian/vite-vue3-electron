@@ -14,7 +14,7 @@
           >
             <el-button
               icon="el-icon-search"
-              @click="info.chooseVisible = true"
+              @click="showChooseFile"
             ></el-button>
           </el-tooltip>
         </template>
@@ -120,7 +120,7 @@ export default defineComponent({
           (restResult: restResultType) => {
             if (restResult.isPositive) {
               info.clientFileList = restResult.data.filter((m) => {
-                return m.fileName.indexOf("devNums") > -1;
+                return m.fileName.indexOf("iemiChipId") > -1;
               });
               info.chooseVisible = true;
             } else {
