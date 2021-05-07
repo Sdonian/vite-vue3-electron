@@ -1,4 +1,4 @@
-import { createClientInfoType, restResultType, clientFlieInfoType, bindAgentInfoType } from '@/models'
+import { createClientInfoType, restResultType, createConfigInfoType, clientFlieInfoType, bindAgentInfoType } from '@/models'
 import api from '@/api'
 import { disposeFixedRestResult, urlEncode } from '@/utils'
 import { ElMessage } from 'element-plus';
@@ -34,6 +34,12 @@ export interface bindAgentType {
     progressLabel: string;
     bindAgentModel: bindAgentInfoType;
     clientFileList: clientFlieInfoType[];
+}
+export interface createConfigType {
+    clientFileList: clientFlieInfoType[],
+    chooseVisible: Boolean,
+    currentRow: any;
+    createConfigModel: createConfigInfoType;
 }
 
 // export interface newDataInfoType {
@@ -224,7 +230,7 @@ export function chooseDeviceNumber(info: bindAgentType) {
  * @param info 
  */
 
- export function chooseImeiChipid(info:any) {
+export function chooseImeiChipid(info: any) {
     //let {agentGroupId,agentAuthorization,} =   info.bindAgentModel;
     if (!info.currentRow) {
         ElMessage.error("请先选择imeiChipid文件.");
@@ -322,4 +328,15 @@ export function batchAddDeviceCheck(info: bindAgentType) {
     } else {
         ElMessage.error("查看批量添加进度参数错误。");
     }
+}
+
+/**
+ * 创建模拟器配置文件
+ * @param info 
+ */
+export function createConfig(info: createConfigType) {
+    disposeFixedRestResult(api.information.createConfig(info.createConfigModel), "创建模拟器配置文件", (restResult: restResultType) => {
+        let baseUrl = request.getConfig().baseUrl;
+        window.open(`${baseUrl}api/${restResult.data}`);
+    });
 }

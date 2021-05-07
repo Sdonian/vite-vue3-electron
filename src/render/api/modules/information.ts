@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import { deviceListQueryInfoType, createClientInfoType } from "@/models";
+import { deviceListQueryInfoType, createClientInfoType, createConfigInfoType } from "@/models";
 
 /**
  * 缓存设备列表
@@ -129,3 +129,13 @@ export function batchAddDevice(info): Promise<any> {
 export function zipDownload(fileNames: string[]): Promise<any> {
     return request.httpPost('information/zipDownload', fileNames);
 }
+
+/**
+ * 创建模拟器配置文件
+ * @param info  基础数据
+ * @returns 
+ */
+export function createConfig(info: createConfigInfoType): Promise<any> {
+    return request.httpPost('information/createConfig', info);
+}
+

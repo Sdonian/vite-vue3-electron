@@ -12,6 +12,7 @@ import TimeDataInfo from './TimeDataInfo'
 import CreateClientInfo from './CreateClientInfo'
 import ClientFlieInfo from './ClientFlieInfo'
 import BindAgentInfo from './BindAgentInfo'
+import CreateConfigInfo from './CreateConfigInfo'
 
 export interface allSourceInfoType extends AllSourceInfo { };
 export interface homeInfoType extends HomeInfo { };
@@ -27,4 +28,4 @@ export interface timeDataInfoType extends TimeDataInfo { };
 export interface createClientInfoType extends CreateClientInfo { };
 export interface clientFlieInfoType extends ClientFlieInfo { };
 export interface bindAgentInfoType extends BindAgentInfo { };
-
+export interface createConfigInfoType extends CreateConfigInfo { };

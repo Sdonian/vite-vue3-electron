@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "936706",
+      "name": "故障报警",
+      "font_class": "malfunction",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
       "icon_id": "6690173",
       "name": "PC",
       "font_class": "pc",

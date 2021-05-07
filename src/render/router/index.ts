@@ -53,6 +53,11 @@ const routers: RouteRecordRaw[] = [{
         component: () => import('@/views/settings/index.vue'),
         meta: { title: '模拟器设置', icon: 'icon-server' }
     }, {
+        path: 'malfunctionSetting',
+        name: 'MalfunctionSetting',
+        component: () => import('@/views/settings/malfunctionSetting.vue'),
+        meta: { title: '故障设置', icon: 'icon-malfunction' }
+    }, {
         path: 'configSetting',
         name: 'ConfigSetting',
         component: () => import('@/views/settings/configSetting.vue'),

@@ -149,6 +149,7 @@
 import { defineComponent, reactive, computed } from "vue";
 import { bindAgentInfoType, restResultType } from "@/models";
 import { ElMessage } from "element-plus";
+import moment from "moment";
 import {
   bindAgentType,
   chooseDeviceNumber,
@@ -210,6 +211,10 @@ export default defineComponent({
             if (restResult.isPositive) {
               info.clientFileList = restResult.data.filter((m) => {
                 return m.fileName.indexOf("devNums") > -1;
+              });
+              info.clientFileList = info.clientFileList.map(m=>{
+                m.createTime = moment(m.createTime).format("YYYY-MM-DD HH:mm:ss.SSS");
+                return m;
               });
               info.chooseVisible = true;
             } else {
