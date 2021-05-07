@@ -24,10 +24,14 @@
   </el-row>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent,reactive } from "vue";
 
 export default defineComponent({
-  setup() {},
+  setup() {
+      const info = reactive({
+          serverList:[]
+      });
+  },
 });
 </script>
 <style lang="scss" scoped>
