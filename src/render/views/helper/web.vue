@@ -48,6 +48,17 @@
         综合管理平台，查看模拟器资源、状态，并管理控制，基础数据生成等<br />
       </div>
     </section>
+    <section id="启动程序">
+      <h3>
+        <a href="#启动程序"> 启动程序 </a>        
+      </h3>
+      <div class="code">
+          docker run -itd --restart=always -p 80:80 -v
+          /home/docker/WZ.ManagerWeb:/app -v /etc/localtime:/etc/localtime
+          --workdir /app mcr.microsoft.com/dotnet/aspnet dotnet
+          /app/WZ.ManagerWeb.dll
+        </div>
+    </section>
     <!-- <section id="配置文件">
       <h3>
         <a href="#配置文件"> 配置文件 </a>
@@ -76,6 +87,10 @@ export default defineComponent({
         {
           href: `${route.path}#功能讲解`,
           text: "功能讲解",
+        },
+        {
+          href: `${route.path}#启动程序`,
+          text: "启动程序",
         },
       ],
     });

@@ -13,6 +13,7 @@ import CreateClientInfo from './CreateClientInfo'
 import ClientFlieInfo from './ClientFlieInfo'
 import BindAgentInfo from './BindAgentInfo'
 import CreateConfigInfo from './CreateConfigInfo'
+import SetMalfunctionsInfo from './SetMalfunctionsInfo'
 
 export interface allSourceInfoType extends AllSourceInfo { };
 export interface homeInfoType extends HomeInfo { };
@@ -29,3 +30,4 @@ export interface createClientInfoType extends CreateClientInfo { };
 export interface clientFlieInfoType extends ClientFlieInfo { };
 export interface bindAgentInfoType extends BindAgentInfo { };
 export interface createConfigInfoType extends CreateConfigInfo { };
+export interface setMalfunctionsInfoType extends SetMalfunctionsInfo { };
