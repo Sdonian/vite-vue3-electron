@@ -5,4 +5,5 @@ export default interface CreateClientInfo {
     userIdEnd: number;
     dockerImageName: string;
     appPath: string;
+    WZCPType:string;
 }

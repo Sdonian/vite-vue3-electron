@@ -30,7 +30,7 @@ export default defineComponent({
       createQRCode: () => {
         var canvas = qrcanvas({
           data: info.text,
-          size: 300,
+          size: 600,
           correctLevel: "H",
         });
         document.querySelector("#qrcode").innerHTML = "";

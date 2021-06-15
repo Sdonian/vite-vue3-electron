@@ -47,7 +47,8 @@ import { createClient } from "./newData";
 export default defineComponent({
   setup() {
     let info: createClientInfoType = reactive<createClientInfoType>({
-      start: 18900000,
+      WZCPType:0,
+      start: 18933000,
       total: 3000,
       sqlFormat:
         "INSERT INTO `wz_main`.`wz_device_specification` ( `device_num`, `company_id`, `category_id`, `device_type`, `hardware_ver`, `hardware_cfg`, `software_ver`, `module_soft_ver`, `imei`,  `chip_id`) VALUES ('{0}', 2, 1, 0, '10', '0', '0.0.5.10', 'WZ_4G_CB_02_1.0.8_Luat_V0030_RDA8910', '{1}', '{2}');",

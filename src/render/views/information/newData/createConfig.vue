@@ -111,10 +111,11 @@ export default defineComponent({
       createConfigModel: {
         serversTotal: 20,
         imeiChipIds: "",
-        userIdStart: 0,
-        userIdEnd: 1000,
+        userIdStart: 12199,
+        userIdEnd: 13198,
         dockerImageName: "mcr.microsoft.com/dotnet/runtime",
-        appPath: "/home/wzConfig/wanzhuang/WanZhuang.Linux.dll",
+        appPath: "/home/wz/lib/WanZhuang.Linux.dll",
+        WZCPType: "0",
       },
     });
     return {

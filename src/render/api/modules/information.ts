@@ -52,7 +52,7 @@ export function saveServerConfig(info: any): Promise<any> {
  * @returns request Promise 
  */
 export function createClient(info: createClientInfoType): Promise<any> {
-    return request.httpPost('information/createClient', info);
+    return request.httpPost('information/createDevice', info);
 }
 
 
@@ -79,7 +79,7 @@ export function getTimeData(serverId: string): Promise<any> {
  * @returns request Promise 
  */
 export function getClientFlieList(): Promise<any> {
-    return request.httpGet('information/getClientFlieList');
+    return request.httpGet('information/getDeviceFlieList');
 }
 
 /**

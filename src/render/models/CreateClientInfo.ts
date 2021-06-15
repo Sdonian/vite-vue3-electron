@@ -11,4 +11,8 @@ export default interface CreateClientInfo {
      * 插入sql语句
      */
     sqlFormat: string;
+    /**
+     * 万桩充电桩类型
+     */
+    WZCPType:number;
 }
